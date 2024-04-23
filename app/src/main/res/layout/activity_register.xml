@@ -10,7 +10,7 @@
 
     <!-- Título -->
     <TextView
-        android:id="@+id/btnCrearCuenta"
+        android:id="@+id/btnRegistrarCuenta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -29,7 +29,7 @@
         android:gravity="fill_vertical"
         android:text="Nombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnCrearCuenta" />
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta" />
 
     <EditText
         android:id="@+id/etNombre"
@@ -39,7 +39,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvNombre"
-        app:layout_constraintTop_toBottomOf="@id/btnCrearCuenta" />
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta" />
 
     <!-- Apellidos -->
     <TextView
@@ -176,7 +176,7 @@
         app:layout_constraintTop_toBottomOf="@id/etContrasena" />
 
     <Button
-        android:id="@+id/btnRegistro"
+        android:id="@+id/btnAcceder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Completar registro"

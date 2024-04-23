@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="12dp"
+    tools:context=".LoginActivity">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/btnRegistrarCuenta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="36dp"
+        android:text="Iniciar sesión"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Correo electrónico -->
+    <TextView
+        android:id="@+id/tvCorreoElec"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        android:gravity="fill_vertical"
+        android:text="Correo electrónico"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta" />
+
+    <EditText
+        android:id="@+id/etCorreoElec"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:hint="Introduce tu correo electrónico"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvCorreoElec"
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta"
+        android:inputType="textEmailAddress"/>
+
+    <!-- Contraseña -->
+    <TextView
+        android:id="@+id/tvContrasena"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        android:gravity="fill_vertical"
+        android:text="Contraseña"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCorreoElec" />
+
+    <EditText
+        android:id="@+id/etContrasena"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:hint="Introduce tu contraseña"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvContrasena"
+        app:layout_constraintTop_toBottomOf="@id/tvCorreoElec"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/btnAcceder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Acceder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvContrasena"
+        android:layout_marginTop="36dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,8 +58,12 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.volley)
 
+    // Google Maps Places
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
     implementation("com.google.android.libraries.places:places:3.3.0")
+
+    // Dependencia de Google Play Services para Maps
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -58,7 +58,7 @@ class RegisterActivity : AppCompatActivity() {
         etContrasena = findViewById(R.id.etContrasena)
 
         cbCondiciones = findViewById(R.id.cbCondiciones)
-        btnRegistro = findViewById(R.id.btnRegistro)
+        btnRegistro = findViewById(R.id.btnAcceder)
 
 
         btnRegistro.setOnClickListener {
