@@ -39,7 +39,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvNombre"
-        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta" />
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta"
+        android:inputType="textPersonName|textCapWords"/>
 
     <!-- Apellidos -->
     <TextView
@@ -49,7 +50,7 @@
         android:gravity="fill_vertical"
         android:text="Apellidos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNombre" />
+        app:layout_constraintTop_toBottomOf="@id/tvNombre"/>
 
     <EditText
         android:id="@+id/etApellidos"
@@ -59,7 +60,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvApellidos"
-        app:layout_constraintTop_toBottomOf="@id/tvNombre" />
+        app:layout_constraintTop_toBottomOf="@id/tvNombre"
+        android:inputType="textPersonName|textCapWords"/>
 
     <!-- Dirección -->
     <TextView
@@ -79,7 +81,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDireccion"
-        app:layout_constraintTop_toBottomOf="@id/tvApellidos" />
+        app:layout_constraintTop_toBottomOf="@id/tvApellidos"
+        android:inputType="textPostalAddress|textCapSentences"/>
 
     <!-- Código postal -->
     <TextView

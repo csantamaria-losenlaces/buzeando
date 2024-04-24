@@ -2,6 +2,7 @@ package com.carlossantamaria.buzeando
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -47,7 +48,6 @@ class RegisterActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
 
         etNombre = findViewById(R.id.etNombre)
         etApellidos = findViewById(R.id.etApellidos)
@@ -113,8 +113,9 @@ class RegisterActivity : AppCompatActivity() {
                 "hash_pwd" to etContrasena.text.toString()
             )
 
-            enviarDatos(url, parametros, onResponseListener = {
+            enviarDatosRegistro(url, parametros, onResponseListener = {
                 Toast.makeText(this, "Usuario creado", Toast.LENGTH_SHORT).show()
+                abrirIdentificar()
             }, onErrorListener = {
                 Toast.makeText(this, "Error al crear el usuario", Toast.LENGTH_SHORT).show()
             })
@@ -125,7 +126,7 @@ class RegisterActivity : AppCompatActivity() {
         return !(etNombre.text.isNullOrEmpty() || etApellidos.text.isNullOrEmpty() || etDireccion.text.isNullOrEmpty() || etCodPostal.text.isNullOrEmpty() || etMovil.text.isNullOrEmpty() || etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty())
     }
 
-    private fun enviarDatos(
+    private fun enviarDatosRegistro(
         url: String,
         parametros: HashMap<String, String>,
         onResponseListener: (String) -> Unit,
@@ -165,6 +166,11 @@ class RegisterActivity : AppCompatActivity() {
 
         // Initialize the SDK
         Places.initialize(applicationContext, apiKey)
+    }
+
+    private fun abrirIdentificar() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
 }

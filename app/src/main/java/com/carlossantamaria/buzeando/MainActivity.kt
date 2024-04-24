@@ -10,7 +10,8 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var btnCrearCuenta: Button
+    private lateinit var btnIniciarSesion: Button
+    private lateinit var btnRegistro: Button
     private lateinit var btnMapa: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,12 +25,19 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        btnCrearCuenta = findViewById(R.id.btnRegistrarCuenta)
+        btnIniciarSesion = findViewById(R.id.btnTengoCuenta)
+        btnRegistro = findViewById(R.id.btnRegistrarCuenta)
         btnMapa = findViewById(R.id.btnMapa)
 
-        btnCrearCuenta.setOnClickListener { abrirRegistro() }
+        btnIniciarSesion.setOnClickListener { abrirIdentificar() }
+        btnRegistro.setOnClickListener { abrirRegistro() }
         btnMapa.setOnClickListener { abrirMapa() }
 
+    }
+
+    private fun abrirIdentificar() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     private fun abrirRegistro() {
