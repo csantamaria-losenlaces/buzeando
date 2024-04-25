@@ -1,6 +1,7 @@
 package com.carlossantamaria.buzeando
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,7 +18,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.libraries.places.api.Places
@@ -62,8 +65,8 @@ class RegisterActivity : AppCompatActivity() {
 
 
         btnRegistro.setOnClickListener {
-            crearCuenta()
             it.ocultarTeclado()
+            crearCuenta()
         }
 
         inicializarPlacesAPI()
@@ -96,29 +99,43 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun crearCuenta() {
         if (!camposCumplimentados()) {
-            Toast.makeText(this, "Asegúrate de rellenar todos los campos", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, "Asegúrate de rellenar todos los campos", Toast.LENGTH_SHORT).show()
         } else if (!cbCondiciones.isChecked) {
-            Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_SHORT).show()
         } else {
-            val url = "http://77.90.13.129/android/save.php"
-            val parametros = hashMapOf(
-                "nombre" to etNombre.text.toString(),
-                "apellidos" to etApellidos.text.toString(),
-                "dir" to etDireccion.text.toString(),
-                "cod_postal" to etCodPostal.text.toString(),
-                "movil" to etMovil.text.toString(),
-                "mail" to etCorreoElec.text.toString(),
-                "hash_pwd" to etContrasena.text.toString()
-            )
-
-            enviarDatosRegistro(url, parametros, onResponseListener = {
-                Toast.makeText(this, "Usuario creado", Toast.LENGTH_SHORT).show()
-                abrirIdentificar()
-            }, onErrorListener = {
-                Toast.makeText(this, "Error al crear el usuario", Toast.LENGTH_SHORT).show()
-            })
+            correoElecExiste { existe ->
+                if (existe != 0) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage("El e-mail introducido ya existe.")
+                        .setPositiveButton("Iniciar sesión") { dialog, id -> abrirIdentificar() }
+                        .setNegativeButton("Volver") { dialog, id -> dialog.dismiss() }
+                    builder.create().show()
+                } else {
+                    val url = "http://77.90.13.129/android/save.php"
+                    val parametros = hashMapOf(
+                        "nombre" to etNombre.text.toString(),
+                        "apellidos" to etApellidos.text.toString(),
+                        "dir" to etDireccion.text.toString(),
+                        "cod_postal" to etCodPostal.text.toString(),
+                        "movil" to etMovil.text.toString(),
+                        "mail" to etCorreoElec.text.toString(),
+                        "hash_pwd" to etContrasena.text.toString()
+                    )
+                    enviarDatosRegistro(url, parametros, onResponseListener = {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setMessage("Cuenta creada con éxito. Ya puedes identificarte con tus nuevas credenciales.")
+                            .setPositiveButton("Iniciar sesión") { _, _ -> abrirIdentificar() }
+                        builder.create().show()
+                    }, onErrorListener = {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setMessage("Ha ocurrido un error al crear la cuenta. Revisa si el e-mail ya existe")
+                            .setPositiveButton("Aceptar") { dialog, id ->
+                                dialog.dismiss()
+                            }
+                        builder.create().show()
+                    })
+                }
+            }
         }
     }
 
@@ -133,7 +150,6 @@ class RegisterActivity : AppCompatActivity() {
         onErrorListener: (String) -> Unit
     ) {
         val requestQueue = Volley.newRequestQueue(this)
-
         val stringRequest = object : StringRequest(Method.POST, url, Response.Listener { response ->
             onResponseListener(response)
         }, Response.ErrorListener { error ->
@@ -143,7 +159,6 @@ class RegisterActivity : AppCompatActivity() {
                 return parametros
             }
         }
-
         requestQueue.add(stringRequest)
     }
 
@@ -170,7 +185,30 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun abrirIdentificar() {
         val intent = Intent(this, LoginActivity::class.java)
+        finish()
         startActivity(intent)
+    }
+
+    private fun correoElecExiste(callback: (Int) -> Unit) {
+        val url = "http://77.90.13.129/android/checkemail.php?mail=${etCorreoElec.text}"
+        val requestQueue = Volley.newRequestQueue(this)
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET,
+            url,
+            null,
+            { response ->
+                Log.i("Log personalizado", "Respuesta exitosa")
+                val numCoincidencias = response.getString("count").toInt()
+                callback(numCoincidencias)
+            },
+            {
+                Log.i("Log personalizado", "Respuesta no exitosa")
+                Toast.makeText(this, "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.", Toast.LENGTH_LONG).show()
+                callback(-1) // Envía un valor predeterminado en caso de error
+            }
+        )
+        requestQueue.add(jsonObjectRequest)
     }
 
 }
