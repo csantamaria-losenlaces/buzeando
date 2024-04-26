@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="12dp"
+    tools:context=".AddOfferActivity">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tvCrearOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="36dp"
+        android:text="Crear oferta"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Tipo -->
+    <TextView
+        android:id="@+id/tvTipo"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="Tipo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCrearOferta" />
+
+    <RadioGroup
+        android:id="@+id/rgTipo"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTipo">
+
+        <RadioButton
+            android:id="@+id/rbProducto"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Producto" />
+
+        <RadioButton
+            android:id="@+id/rbServicio"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Servicio" />
+    </RadioGroup>
+
+    <!-- Título oferta -->
+    <TextView
+        android:id="@+id/tvTituloOferta"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        android:gravity="fill_vertical"
+        android:text="Título"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgTipo" />
+
+    <EditText
+        android:id="@+id/etTituloOferta"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:hint="Introduce un título..."
+        android:inputType="textPersonName|textCapWords"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloOferta" />
+
+    <!-- Descripción -->
+    <TextView
+        android:id="@+id/tvDescripción"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        android:gravity="fill_vertical"
+        android:text="Descripción"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etTituloOferta" />
+
+    <EditText
+        android:id="@+id/etDescripción"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:hint="Introduce una descripción..."
+        android:inputType="textPersonName|textCapWords"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDescripción" />
+
+    <!-- Contenedor Precio y Código postal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etDescripción">
+
+        <!-- Precio -->
+        <TextView
+            android:id="@+id/tvPrecio"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="fill_vertical"
+            android:text="Precio" />
+
+        <EditText
+            android:id="@+id/etPrecio"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:inputType="textPostalAddress|textCapSentences"
+            android:textSize="14sp" />
+
+        <!-- Código postal -->
+        <TextView
+            android:id="@+id/tvCodPostal"
+            android:layout_width="0dp"
+            android:layout_weight="1.25"
+            android:layout_height="match_parent"
+            android:gravity="fill_vertical"
+            android:text="Cód. postal" />
+
+        <EditText
+            android:id="@+id/etCodPostal"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:inputType="textPostalAddress|textCapSentences"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
