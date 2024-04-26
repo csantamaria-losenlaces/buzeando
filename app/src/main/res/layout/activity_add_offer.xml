@@ -95,6 +95,7 @@
 
     <!-- Contenedor Precio y Código postal -->
     <LinearLayout
+        android:id="@+id/llPrecioCodPostal"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:orientation="horizontal"
@@ -137,5 +138,16 @@
 
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubirImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llPrecioCodPostal"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Icono de galería"
+        app:icon="@drawable/baseline_collections_48"
+        app:iconGravity="textStart"
+        android:text="Subir imagen"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

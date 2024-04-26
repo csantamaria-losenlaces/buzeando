@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -59,14 +61,27 @@ dependencies {
     implementation(libs.volley)
 
     // Google Maps Places
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-    implementation("com.google.android.libraries.places:places:3.3.0")
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.0"))
+    implementation("com.google.android.libraries.places:places:3.4.0")
 
     // Dependencia de Google Play Services para Maps
     implementation("com.google.android.gms:play-services-maps:18.2.0")
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    // okhttp
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
 
+kapt {
+    correctErrorTypes = true
 }
