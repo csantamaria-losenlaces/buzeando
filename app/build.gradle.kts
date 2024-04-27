@@ -1,9 +1,13 @@
 plugins {
+    id("com.android.library") version "8.3.0" apply false
+    id("com.google.dagger.hilt.android") version "2.51.1" apply false
+
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -60,8 +64,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.volley)
 
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.23"))
+
     // Google Maps Places
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.0"))
     implementation("com.google.android.libraries.places:places:3.4.0")
 
     // Dependencia de Google Play Services para Maps
@@ -76,6 +81,11 @@ dependencies {
 
     // okhttp
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
+
+    implementation("androidx.core:core-ktx:1.13.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
+    implementation("androidx.activity:activity-compose:1.9.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

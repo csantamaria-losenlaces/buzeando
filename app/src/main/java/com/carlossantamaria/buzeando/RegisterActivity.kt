@@ -99,9 +99,11 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun crearCuenta() {
         if (!camposCumplimentados()) {
-            Toast.makeText(this, "Asegúrate de rellenar todos los campos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Asegúrate de rellenar todos los campos", Toast.LENGTH_SHORT)
+                .show()
         } else if (!cbCondiciones.isChecked) {
-            Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_SHORT)
+                .show()
         } else {
             correoElecExiste { existe ->
                 if (existe != 0) {
@@ -204,7 +206,11 @@ class RegisterActivity : AppCompatActivity() {
             },
             {
                 Log.i("Log personalizado", "Respuesta no exitosa")
-                Toast.makeText(this, "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.",
+                    Toast.LENGTH_LONG
+                ).show()
                 callback(-1) // Envía un valor predeterminado en caso de error
             }
         )
