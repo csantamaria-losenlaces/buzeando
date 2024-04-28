@@ -9,7 +9,7 @@ import retrofit2.http.Part
 
 interface ImageService {
     @Multipart
-    @POST("your/api/endpoint")
+    @POST("http://77.90.13.129/android/uploadimage.php")
     suspend fun uploadImage(
         @Part image: MultipartBody.Part,
         @Part("image") requestBody: RequestBody
