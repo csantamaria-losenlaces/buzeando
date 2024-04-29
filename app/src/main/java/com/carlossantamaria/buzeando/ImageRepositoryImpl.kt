@@ -28,14 +28,13 @@ class ImageRepositoryImpl @Inject constructor(
             try {
                 emit(Resource.Loading(true))
                 val uploadImageResponse = imageService.uploadImage(
-                    image = image,
-                    requestBody = requestBody
+                    requestBody = requestBody,
+                    image = image
                 )
-
                 emit(Resource.Success(data = uploadImageResponse))
                 emit(Resource.Loading(false))
             } catch (e: IOException) {
-                emit(Resource.Error(message = "Couldn't upload image."))
+                emit(Resource.Error(message = "No se ha podido subir la imagen"))
             } catch (e: HttpException) {
                 emit(Resource.Error(message = "${e.message}"))
             }
