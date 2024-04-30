@@ -16,7 +16,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.carlossantamaria.buzeando.viewmodel.UploadViewModel
 import com.google.android.material.button.MaterialButton
-import dagger.hilt.android.HiltAndroidApp
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -24,15 +23,11 @@ import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import javax.inject.Inject
 
-@HiltAndroidApp
 class AddOfferActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var uploadViewModel: UploadViewModel
-
     private lateinit var btnSubirImagen: MaterialButton
+    private lateinit var uploadViewModel: UploadViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

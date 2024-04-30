@@ -1,12 +1,11 @@
 plugins {
     id("com.android.library") version "8.3.2" apply false
-    id("com.google.dagger.hilt.android") version "2.51.1" apply false
+    id("com.google.dagger.hilt.android") version "2.51.1"
 
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-
     kotlin("kapt")
 }
 
@@ -76,8 +75,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
     // okhttp
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
