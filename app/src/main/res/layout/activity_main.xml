@@ -41,21 +41,31 @@
         app:layout_constraintTop_toBottomOf="@id/btnTengoCuenta" />
 
     <Button
-        android:id="@+id/btnMapa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="[DEV] Ver mapa"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta" />
-
-    <Button
         android:id="@+id/btnNuevaOferta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="[DEV] Nueva oferta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta" />
+
+    <Button
+        android:id="@+id/btnMapa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="[DEV] Ofertas (mapa)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnNuevaOferta" />
+
+    <Button
+        android:id="@+id/btnListaOfertas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="[DEV] Ofertas (lista)"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnMapa" />

@@ -12,8 +12,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var btnIniciarSesion: Button
     private lateinit var btnRegistro: Button
-    private lateinit var btnMapa: Button
+    private lateinit var btnMapaOfertas: Button
     private lateinit var btnNuevaOferta: Button
+    private lateinit var btnListaOfertas: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -28,13 +29,18 @@ class MainActivity : AppCompatActivity() {
 
         btnIniciarSesion = findViewById(R.id.btnTengoCuenta)
         btnRegistro = findViewById(R.id.btnRegistrarCuenta)
-        btnMapa = findViewById(R.id.btnMapa)
+
+        btnMapaOfertas = findViewById(R.id.btnMapa)
         btnNuevaOferta = findViewById(R.id.btnNuevaOferta)
+        btnListaOfertas = findViewById(R.id.btnListaOfertas)
+
 
         btnIniciarSesion.setOnClickListener { abrirIdentificar() }
         btnRegistro.setOnClickListener { abrirRegistro() }
-        btnMapa.setOnClickListener { abrirMapa() }
+
         btnNuevaOferta.setOnClickListener { abrirNuevaOferta() }
+        btnMapaOfertas.setOnClickListener { abrirMapa() }
+        btnListaOfertas.setOnClickListener { abrirListaOfertas() }
 
     }
 
@@ -48,13 +54,18 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun abrirNuevaOferta() {
+        val intent = Intent(this, AddOfferActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun abrirMapa() {
         val intent = Intent(this, MapViewActivity::class.java)
         startActivity(intent)
     }
 
-    private fun abrirNuevaOferta() {
-        val intent = Intent(this, AddOfferActivity::class.java)
+    private fun abrirListaOfertas() {
+        val intent = Intent(this, OfferListActivity::class.java)
         startActivity(intent)
     }
 }

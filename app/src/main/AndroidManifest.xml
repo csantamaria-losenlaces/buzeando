@@ -18,7 +18,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".OfferListView"
+            android:name=".OfferDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OfferListActivity"
             android:exported="false" />
         <activity
             android:name=".AddOfferActivity"

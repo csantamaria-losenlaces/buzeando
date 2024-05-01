@@ -1,19 +1,13 @@
 package com.carlossantamaria.buzeando
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory.decodeFile
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import com.carlossantamaria.buzeando.viewmodel.UploadViewModel
 import com.google.android.material.button.MaterialButton
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -40,9 +34,9 @@ class AddOfferActivity : AppCompatActivity() {
             insets
         }
 
-        uploadViewModel = ViewModelProvider(this)[UploadViewModel::class.java]
+        //uploadViewModel = ViewModelProvider(this)[UploadViewModel::class.java]
 
-        val galleryLauncher =
+        /*val galleryLauncher =
             registerForActivityResult(
                 contract = ActivityResultContracts.StartActivityForResult()
             ) {
@@ -61,14 +55,14 @@ class AddOfferActivity : AppCompatActivity() {
                         }
                     }
                 }
-            }
+            }*/
 
         btnSubirImagen = findViewById(R.id.btnSubirImagen)
 
         btnSubirImagen.setOnClickListener {
-            val galleryIntent =
+            /*val galleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            galleryLauncher.launch(galleryIntent)
+            galleryLauncher.launch(galleryIntent)*/
         }
     }
 

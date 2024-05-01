@@ -86,6 +86,9 @@ dependencies {
 
     implementation("androidx.activity:activity-compose:1.9.0")
 
+    // Picasso
+    implementation("com.squareup.picasso:picasso:2.8")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
