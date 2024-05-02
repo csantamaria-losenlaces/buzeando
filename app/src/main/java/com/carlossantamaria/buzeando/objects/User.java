@@ -1,4 +1,4 @@
-package com.carlossantamaria.buzeando;
+package com.carlossantamaria.buzeando.objects;
 
 public class User {
 

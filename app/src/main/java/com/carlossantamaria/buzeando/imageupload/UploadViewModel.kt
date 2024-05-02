@@ -1,11 +1,9 @@
-package com.carlossantamaria.buzeando.viewmodel
+package com.carlossantamaria.buzeando.imageupload
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.carlossantamaria.buzeando.Resource
-import com.carlossantamaria.buzeando.data.UploadImageState
-import com.carlossantamaria.buzeando.interfaces.ImageRepository
+import com.carlossantamaria.buzeando.objects.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

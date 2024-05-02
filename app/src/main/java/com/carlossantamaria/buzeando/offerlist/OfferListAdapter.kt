@@ -1,8 +1,10 @@
-package com.carlossantamaria.buzeando
+package com.carlossantamaria.buzeando.offerlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.carlossantamaria.buzeando.objects.Offer
+import com.carlossantamaria.buzeando.R
 
 class OfferListAdapter (private val listaOfertas: List<Offer>) : RecyclerView.Adapter<OfferListViewHolder> () {
 

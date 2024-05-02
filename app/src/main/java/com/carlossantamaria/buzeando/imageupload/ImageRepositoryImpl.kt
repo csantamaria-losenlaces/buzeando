@@ -1,8 +1,6 @@
-package com.carlossantamaria.buzeando
+package com.carlossantamaria.buzeando.imageupload
 
-import com.carlossantamaria.buzeando.data.UploadResponse
-import com.carlossantamaria.buzeando.interfaces.ImageRepository
-import com.carlossantamaria.buzeando.interfaces.ImageService
+import com.carlossantamaria.buzeando.objects.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

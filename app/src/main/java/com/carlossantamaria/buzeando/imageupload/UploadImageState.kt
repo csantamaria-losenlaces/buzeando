@@ -1,4 +1,4 @@
-package com.carlossantamaria.buzeando.data
+package com.carlossantamaria.buzeando.imageupload
 
 data class UploadImageState(
     val uploadResponse: UploadResponse = UploadResponse(),

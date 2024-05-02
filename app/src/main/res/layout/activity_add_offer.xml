@@ -138,10 +138,10 @@
 
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btnSubirImagen"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llPrecioCodPostal"
         app:layout_constraintEnd_toEndOf="parent"

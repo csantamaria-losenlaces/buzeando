@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="12dp"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- Título -->
     <TextView
         android:id="@+id/tvBienvenida"
         android:layout_width="match_parent"
@@ -17,57 +17,62 @@
         android:paddingBottom="36dp"
         android:text="Te damos la bienvenida"
         android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnTengoCuenta"
+    <LinearLayout
+        android:id="@+id/llBotones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ya tengo una cuenta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvBienvenida" />
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
-    <Button
-        android:id="@+id/btnRegistrarCuenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Crear una cuenta nueva"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnTengoCuenta" />
+        <Button
+            android:id="@+id/btnTengoCuenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Ya tengo una cuenta" />
 
-    <Button
-        android:id="@+id/btnNuevaOferta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="[DEV] Nueva oferta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta" />
+        <Button
+            android:id="@+id/btnRegistrarCuenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="Crear una cuenta nueva" />
 
-    <Button
-        android:id="@+id/btnMapa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="[DEV] Ofertas (mapa)"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnNuevaOferta" />
+        <Button
+            android:id="@+id/btnNuevaOferta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="[DEV] Nueva oferta" />
 
-    <Button
-        android:id="@+id/btnListaOfertas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="[DEV] Ofertas (lista)"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnMapa" />
+        <Button
+            android:id="@+id/btnMapa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="[DEV] Ofertas (mapa)" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btnListaOfertas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="[DEV] Ofertas (lista)" />
+
+        <Button
+            android:id="@+id/btnDetallesOferta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="[DEV] Detalles oferta" />
+
+    </LinearLayout>
+
+</LinearLayout>

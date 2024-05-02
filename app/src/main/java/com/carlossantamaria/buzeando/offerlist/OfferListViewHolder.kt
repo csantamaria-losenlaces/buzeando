@@ -1,9 +1,11 @@
-package com.carlossantamaria.buzeando
+package com.carlossantamaria.buzeando.offerlist
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.carlossantamaria.buzeando.objects.Offer
+import com.carlossantamaria.buzeando.R
 import com.squareup.picasso.Picasso
 
 class OfferListViewHolder(view: View) : RecyclerView.ViewHolder(view) {

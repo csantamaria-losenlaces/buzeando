@@ -1,7 +1,7 @@
-package com.carlossantamaria.buzeando.interfaces
+package com.carlossantamaria.buzeando.imageupload
 
-import com.carlossantamaria.buzeando.Resource
-import com.carlossantamaria.buzeando.data.UploadResponse
+import com.carlossantamaria.buzeando.objects.Resource
+import com.carlossantamaria.buzeando.imageupload.UploadResponse
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 

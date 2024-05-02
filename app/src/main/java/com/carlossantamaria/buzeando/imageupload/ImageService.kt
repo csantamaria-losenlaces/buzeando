@@ -1,6 +1,6 @@
-package com.carlossantamaria.buzeando.interfaces
+package com.carlossantamaria.buzeando.imageupload
 
-import com.carlossantamaria.buzeando.data.UploadResponse
+import com.carlossantamaria.buzeando.imageupload.UploadResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Multipart

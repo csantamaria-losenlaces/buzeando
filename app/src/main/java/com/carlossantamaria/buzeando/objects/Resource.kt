@@ -1,6 +1,6 @@
-package com.carlossantamaria.buzeando
+package com.carlossantamaria.buzeando.objects
 
-import com.carlossantamaria.buzeando.data.UploadResponse
+import com.carlossantamaria.buzeando.imageupload.UploadResponse
 
 sealed class Resource<T> {
     data class Success<T>(val data: T) : Resource<T>()

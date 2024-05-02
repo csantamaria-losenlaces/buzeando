@@ -1,4 +1,4 @@
-package com.carlossantamaria.buzeando
+package com.carlossantamaria.buzeando.offerlist
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,6 +7,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.carlossantamaria.buzeando.objects.Offer
+import com.carlossantamaria.buzeando.R
 
 class OfferListActivity : AppCompatActivity() {
 

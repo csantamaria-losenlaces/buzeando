@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.carlossantamaria.buzeando.offerlist.OfferListActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnMapaOfertas: Button
     private lateinit var btnNuevaOferta: Button
     private lateinit var btnListaOfertas: Button
+    private lateinit var btnDetallesOferta: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         btnMapaOfertas = findViewById(R.id.btnMapa)
         btnNuevaOferta = findViewById(R.id.btnNuevaOferta)
         btnListaOfertas = findViewById(R.id.btnListaOfertas)
+        btnDetallesOferta = findViewById(R.id.btnDetallesOferta)
 
 
         btnIniciarSesion.setOnClickListener { abrirIdentificar() }
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         btnNuevaOferta.setOnClickListener { abrirNuevaOferta() }
         btnMapaOfertas.setOnClickListener { abrirMapa() }
         btnListaOfertas.setOnClickListener { abrirListaOfertas() }
+        btnDetallesOferta.setOnClickListener { abrirDetallesOferta() }
 
     }
 
@@ -66,6 +70,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun abrirListaOfertas() {
         val intent = Intent(this, OfferListActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun abrirDetallesOferta() {
+        val intent = Intent(this, OfferDetailsActivity::class.java)
         startActivity(intent)
     }
 }
