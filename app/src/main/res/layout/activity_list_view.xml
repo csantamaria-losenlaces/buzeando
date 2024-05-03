@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toStartOf="@id/btnFiltrar"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnFiltrar"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -61,14 +61,14 @@
         android:layout_marginBottom="24dp"
         android:layout_marginTop="16dp">
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnCrearOferta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Crear oferta"
             android:layout_gravity="center"/>
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnUbicarUsuario"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -102,8 +102,8 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn1"
+            <Button
+                android:id="@+id/btnMapa"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginBottom="8dp"
@@ -119,7 +119,7 @@
                 app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
 
             <TextView
-                android:id="@+id/tvBtn1"
+                android:id="@+id/tvMapa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mapa"
@@ -133,8 +133,8 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn2"
+            <Button
+                android:id="@+id/btnListaOfertas"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginBottom="8dp"
@@ -150,7 +150,7 @@
                 app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
 
             <TextView
-                android:id="@+id/tvBtn2"
+                android:id="@+id/tvListaOfertas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lista"
@@ -165,8 +165,8 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn3"
+            <Button
+                android:id="@+id/btnPerfil"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginBottom="8dp"
@@ -182,7 +182,7 @@
                 app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
 
             <TextView
-                android:id="@+id/tvBtn3"
+                android:id="@+id/tvPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mi cuenta"

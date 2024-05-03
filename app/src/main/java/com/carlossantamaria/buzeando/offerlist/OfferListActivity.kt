@@ -1,14 +1,18 @@
 package com.carlossantamaria.buzeando.offerlist
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.carlossantamaria.buzeando.objects.Offer
+import com.carlossantamaria.buzeando.MapViewActivity
 import com.carlossantamaria.buzeando.R
+import com.carlossantamaria.buzeando.objects.Offer
 
 class OfferListActivity : AppCompatActivity() {
 
@@ -31,11 +35,15 @@ class OfferListActivity : AppCompatActivity() {
         Offer("Hogar", "Set de cuchillos de cocina", "Set de cuchillos de acero inoxidable con bloque de madera para almacenamiento.", 69.99, "imagen14.jpg"),
         Offer("Electrónica", "Televisor LED 4K Samsung", "Televisor LED con resolución 4K y tecnología de mejora de imagen.", 799.99, "imagen15.jpg")
     )
+    private lateinit var btnMapa: Button
+    private lateinit var btnListaOfertas: Button
+    private lateinit var btnPerfil: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_offer_list_view)
+        setContentView(R.layout.activity_list_view)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -43,18 +51,41 @@ class OfferListActivity : AppCompatActivity() {
         }
 
         initComponents()
+        initUI()
     }
 
     private fun initComponents() {
-        rvListaOfertas = findViewById(R.id.rvListaOfertas)
         adapterListaOfertas = OfferListAdapter(listaOfertas)
+        rvListaOfertas = findViewById(R.id.rvListaOfertas)
 
-        rvListaOfertas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rvListaOfertas.adapter = adapterListaOfertas
+        btnMapa = findViewById(R.id.btnMapa)
+        btnListaOfertas = findViewById(R.id.btnListaOfertas)
+        btnPerfil = findViewById(R.id.btnPerfil)
     }
 
     private fun initUI() {
-        adapterListaOfertas = OfferListAdapter(listaOfertas)
+        rvListaOfertas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvListaOfertas.adapter = adapterListaOfertas
+
+        btnMapa.setOnClickListener { abrirMapa() }
+        btnListaOfertas.setOnClickListener { abrirListaOfertas() }
+        btnPerfil.setOnClickListener { abrirPerfil() }
+    }
+
+    private fun abrirMapa() {
+        val intent = Intent(this, MapViewActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun abrirListaOfertas() {
+        val intent = Intent(this, OfferListActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun abrirPerfil() {
+        /*val intent = Intent(this, OfferListActivity::class.java)
+        startActivity(intent)*/
+        Toast.makeText(this, "Funcionalidad todavía no implementada", Toast.LENGTH_SHORT).show()
     }
 
 }

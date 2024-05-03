@@ -3,10 +3,12 @@ package com.carlossantamaria.buzeando
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.carlossantamaria.buzeando.objects.User
 import com.carlossantamaria.buzeando.offerlist.OfferListActivity
 
 class MainActivity : AppCompatActivity() {
@@ -46,6 +48,15 @@ class MainActivity : AppCompatActivity() {
         btnListaOfertas.setOnClickListener { abrirListaOfertas() }
         btnDetallesOferta.setOnClickListener { abrirDetallesOferta() }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(this, "Has vuelto a la actividad", Toast.LENGTH_SHORT).show()
+        if (User.id_usr.isNotBlank()) {
+            btnIniciarSesion.isEnabled = false
+            btnRegistro.isEnabled = false
+        }
     }
 
     private fun abrirIdentificar() {
