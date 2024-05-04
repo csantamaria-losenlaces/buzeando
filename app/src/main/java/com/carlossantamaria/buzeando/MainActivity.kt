@@ -3,11 +3,13 @@ package com.carlossantamaria.buzeando
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import com.carlossantamaria.buzeando.objects.User
 import com.carlossantamaria.buzeando.offerlist.OfferListActivity
 
@@ -15,8 +17,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var btnIniciarSesion: Button
     private lateinit var btnRegistro: Button
-    private lateinit var btnMapaOfertas: Button
+    private lateinit var tvCerrarSesion: TextView
+
+    // Temporal
     private lateinit var btnNuevaOferta: Button
+    private lateinit var btnMapaOfertas: Button
     private lateinit var btnListaOfertas: Button
     private lateinit var btnDetallesOferta: Button
 
@@ -33,16 +38,20 @@ class MainActivity : AppCompatActivity() {
 
         btnIniciarSesion = findViewById(R.id.btnTengoCuenta)
         btnRegistro = findViewById(R.id.btnRegistrarCuenta)
+        tvCerrarSesion = findViewById(R.id.tvCerrarSesion)
 
-        btnMapaOfertas = findViewById(R.id.btnMapa)
+        // Temporal
         btnNuevaOferta = findViewById(R.id.btnNuevaOferta)
+        btnMapaOfertas = findViewById(R.id.btnMapa)
         btnListaOfertas = findViewById(R.id.btnListaOfertas)
         btnDetallesOferta = findViewById(R.id.btnDetallesOferta)
 
 
         btnIniciarSesion.setOnClickListener { abrirIdentificar() }
         btnRegistro.setOnClickListener { abrirRegistro() }
+        tvCerrarSesion.setOnClickListener { cerrarSesion() }
 
+        // Temporal
         btnNuevaOferta.setOnClickListener { abrirNuevaOferta() }
         btnMapaOfertas.setOnClickListener { abrirMapa() }
         btnListaOfertas.setOnClickListener { abrirListaOfertas() }
@@ -56,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         if (User.id_usr.isNotBlank()) {
             btnIniciarSesion.isEnabled = false
             btnRegistro.isEnabled = false
+            tvCerrarSesion.isVisible = true
         }
     }
 
@@ -69,6 +79,15 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun cerrarSesion() {
+        btnIniciarSesion.isEnabled = true
+        btnRegistro.isEnabled = true
+        tvCerrarSesion.isVisible = false
+        User.cerrarSesion()
+        Toast.makeText(this, "Has cerrado sesión", Toast.LENGTH_SHORT).show()
+    }
+
+    // Temporal
     private fun abrirNuevaOferta() {
         val intent = Intent(this, AddOfferActivity::class.java)
         startActivity(intent)

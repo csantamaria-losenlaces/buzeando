@@ -89,6 +89,9 @@ dependencies {
     // Picasso
     implementation("com.squareup.picasso:picasso:2.8")
 
+    // Bcrypt
+    implementation("com.ToxicBakery.library.bcrypt:bcrypt:1.0.9")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

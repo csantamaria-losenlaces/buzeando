@@ -11,6 +11,17 @@ class User {
         var movil: String = ""
         var mail: String = ""
         var hash_pwd: String = ""
+
+        fun cerrarSesion() {
+            id_usr = ""
+            nombre = ""
+            apellidos = ""
+            dir = ""
+            cod_postal = ""
+            movil = ""
+            mail = ""
+            hash_pwd = ""
+        }
     }
 
 }

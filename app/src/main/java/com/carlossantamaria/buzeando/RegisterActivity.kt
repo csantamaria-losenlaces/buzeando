@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,6 +28,8 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.toxicbakery.bcrypt.Bcrypt
+
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -40,6 +43,8 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var cbCondiciones: CheckBox
     private lateinit var btnRegistro: Button
+
+    private lateinit var startAutocomplete: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -63,37 +68,57 @@ class RegisterActivity : AppCompatActivity() {
         cbCondiciones = findViewById(R.id.cbCondiciones)
         btnRegistro = findViewById(R.id.btnAcceder)
 
+        inicializarPlacesAPI()
+
+        // Set the fields to specify which types of place data to return after the user has made a selection
+        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS)
+
+        // Start the autocomplete intent
+        val autoCompleteIntent: Intent =
+            Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .setCountries(listOf("ES"))
+                .setTypesFilter(listOf("address"))
+                .build(this)
+
+        startAutocomplete =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val intent: Intent? = result.data
+                    if (intent != null) {
+                        val place: Place = Autocomplete.getPlaceFromIntent(intent)
+                        val addressComponents = place.addressComponents
+
+                        etDireccion.setText(place.name)
+
+                        addressComponents?.asList()?.forEach { component ->
+                            Log.i("Places API", component.toString())
+                            val codPostal = component.types.find { "postal_code" == it }
+                            if (!codPostal.isNullOrEmpty()) etCodPostal.setText(component.name)
+                        }
+
+                    }
+                } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                    Log.i("Places API", "User canceled autocomplete")
+                }
+            }
+
+        val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                Toast.makeText(this, "Se ha pulsado el campo de dirección", Toast.LENGTH_SHORT)
+                    .show()
+                startAutocomplete.launch(autoCompleteIntent)
+            } else {
+                Toast.makeText(this, "Se ha salido del campo de dirección", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        etDireccion.onFocusChangeListener = focusChangeListener
 
         btnRegistro.setOnClickListener {
             it.ocultarTeclado()
             crearCuenta()
         }
-
-        inicializarPlacesAPI()
-
-        // Set the fields to specify which types of place data to
-        // return after the user has made a selection.
-        val fields = listOf(Place.Field.ID, Place.Field.NAME)
-
-        // Start the autocomplete intent.
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
-            .build(this)
-
-        val startAutocomplete =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val intent = result.data
-                    if (intent != null) {
-                        val place = Autocomplete.getPlaceFromIntent(intent)
-                        Log.i("Places API", "Place: ${place.name}, ${place.id}")
-                    }
-                } else if (result.resultCode == Activity.RESULT_CANCELED) {
-                    // The user canceled the operation.
-                    Log.i("Places API", "User canceled autocomplete")
-                }
-            }
-
-        startAutocomplete.launch(intent)
 
     }
 
@@ -114,6 +139,8 @@ class RegisterActivity : AppCompatActivity() {
                     builder.create().show()
                 } else {
                     val url = "http://77.90.13.129/android/save.php"
+                    val hashPwd = Bcrypt.hash(etContrasena.text.toString(), 12).decodeToString()
+
                     val parametros = hashMapOf(
                         "nombre" to etNombre.text.toString(),
                         "apellidos" to etApellidos.text.toString(),
@@ -121,7 +148,7 @@ class RegisterActivity : AppCompatActivity() {
                         "cod_postal" to etCodPostal.text.toString(),
                         "movil" to etMovil.text.toString(),
                         "mail" to etCorreoElec.text.toString(),
-                        "hash_pwd" to etContrasena.text.toString()
+                        "hash_pwd" to hashPwd
                     )
                     enviarDatosRegistro(url, parametros, onResponseListener = {
                         val builder = AlertDialog.Builder(this)
