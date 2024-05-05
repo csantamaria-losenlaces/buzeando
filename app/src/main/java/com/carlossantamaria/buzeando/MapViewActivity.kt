@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.carlossantamaria.buzeando.utils.LoadOffersFromDb
 import com.carlossantamaria.buzeando.utils.PermissionUtils
 import com.carlossantamaria.buzeando.utils.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
 import com.carlossantamaria.buzeando.utils.PermissionUtils.isPermissionGranted
@@ -23,11 +25,13 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class MapViewActivity : AppCompatActivity(),
     GoogleMap.OnMyLocationButtonClickListener,
-    GoogleMap.OnMyLocationClickListener, OnMapReadyCallback,
+    GoogleMap.OnMyLocationClickListener,
+    OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
 
     private var permissionDenied = false
     private lateinit var map: GoogleMap
+    private val listaCoordenadas = mutableListOf<LatLng>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +60,26 @@ class MapViewActivity : AppCompatActivity(),
                 .title("CPIFP Los Enlaces")
                 .snippet("Gata random inside")
         )
+
+        LoadOffersFromDb.cargarOfertas(this) { offerList ->
+            if (offerList.isNotEmpty()) {
+                offerList.forEach {
+                    listaCoordenadas.add(LatLng(it.coordsLat, it.coordsLong))
+                    Log.i("Lista coordenadas", "Latitud: ${it.coordsLat}, Longitud: ${it.coordsLong}"
+                    )
+                }
+                // Add markers after listaCoordenadas is populated
+                listaCoordenadas.forEach {
+                    googleMap.addMarker(
+                        MarkerOptions()
+                            .position(it)
+                            .title("Waypoint")
+                            .snippet("Desc. del waypoint")
+                    )
+                    Log.i("Waypoint", "Se ha añadido un waypoint ${it.latitude}, ${it.longitude}")
+                }
+            }
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -170,4 +194,5 @@ class MapViewActivity : AppCompatActivity(),
          */
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
+
 }

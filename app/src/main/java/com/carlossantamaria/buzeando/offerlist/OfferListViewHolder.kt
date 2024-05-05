@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.carlossantamaria.buzeando.objects.Offer
 import com.carlossantamaria.buzeando.R
+import com.carlossantamaria.buzeando.objects.Offer
 import com.squareup.picasso.Picasso
 
 class OfferListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -20,9 +20,9 @@ class OfferListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         tvTipoOferta.text = item.tipo
         tvTituloOferta.text = item.titulo
         tvDescOferta.text = item.descripcion
-        tvPrecio.text = item.precio.toString()
+        tvPrecio.text = item.coste.toString()
         Picasso.get()
-            .load("https://s3.amazonaws.com/www-inside-design/uploads/2018/12/The-product-of-you-810x810.png")
+            .load("http://77.90.13.129/android/${item.rutaImg1}")
             .resize(88, 88)
             .centerCrop()
             .into(ivImagenPrincipal)

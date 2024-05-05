@@ -16,7 +16,6 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.carlossantamaria.buzeando.objects.User
-import com.carlossantamaria.buzeando.offerlist.OfferListActivity
 import com.toxicbakery.bcrypt.Bcrypt
 
 class LoginActivity : AppCompatActivity() {

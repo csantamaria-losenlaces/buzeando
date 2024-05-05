@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.carlossantamaria.buzeando.objects.User
-import com.carlossantamaria.buzeando.offerlist.OfferListActivity
 
 class MainActivity : AppCompatActivity() {
 
