@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.carlossantamaria.buzeando.objects.Waypoint
 import com.carlossantamaria.buzeando.utils.LoadOffersFromDb
 import com.carlossantamaria.buzeando.utils.PermissionUtils
 import com.carlossantamaria.buzeando.utils.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
@@ -31,7 +32,7 @@ class MapViewActivity : AppCompatActivity(),
 
     private var permissionDenied = false
     private lateinit var map: GoogleMap
-    private val listaCoordenadas = mutableListOf<LatLng>()
+    private val listaCoordenadas = mutableListOf<Waypoint>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +65,7 @@ class MapViewActivity : AppCompatActivity(),
         LoadOffersFromDb.cargarOfertas(this) { offerList ->
             if (offerList.isNotEmpty()) {
                 offerList.forEach {
-                    listaCoordenadas.add(LatLng(it.coordsLat, it.coordsLong))
+                    listaCoordenadas.add(Waypoint(it.titulo, it.descripcion, LatLng(it.coordsLat, it.coordsLong)))
                     Log.i("Lista coordenadas", "Latitud: ${it.coordsLat}, Longitud: ${it.coordsLong}"
                     )
                 }
@@ -72,11 +73,10 @@ class MapViewActivity : AppCompatActivity(),
                 listaCoordenadas.forEach {
                     googleMap.addMarker(
                         MarkerOptions()
-                            .position(it)
-                            .title("Waypoint")
-                            .snippet("Desc. del waypoint")
+                            .position(it.coordenadas)
+                            .title(it.titulo)
+                            .snippet(it.descripcion)
                     )
-                    Log.i("Waypoint", "Se ha añadido un waypoint ${it.latitude}, ${it.longitude}")
                 }
             }
         }
