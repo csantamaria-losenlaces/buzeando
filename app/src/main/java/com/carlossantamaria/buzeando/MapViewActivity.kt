@@ -2,10 +2,12 @@ package com.carlossantamaria.buzeando
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +32,9 @@ class MapViewActivity : AppCompatActivity(),
     OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
 
+    private lateinit var btnListaOfertas: Button
+    private lateinit var btnPerfil: Button
+
     private var permissionDenied = false
     private lateinit var map: GoogleMap
     private val listaCoordenadas = mutableListOf<Waypoint>()
@@ -44,8 +49,24 @@ class MapViewActivity : AppCompatActivity(),
             insets
         }
 
+        btnListaOfertas = findViewById(R.id.btnListaOfertas)
+        btnPerfil = findViewById(R.id.btnPerfil)
+
+        btnListaOfertas.setOnClickListener { abrirListaOfertas() }
+        btnPerfil.setOnClickListener { abrirPerfil() }
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+    }
+
+    private fun abrirListaOfertas() {
+        val intent = Intent(this, OfferListActivity::class.java)
+        finish()
+        startActivity(intent)
+    }
+
+    private fun abrirPerfil() {
+        Toast.makeText(this, "Esta sección estará disponible muy pronto", Toast.LENGTH_SHORT).show()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

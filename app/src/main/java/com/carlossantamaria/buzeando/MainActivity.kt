@@ -60,11 +60,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(this, "Has vuelto a la actividad", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Has vuelto a la actividad principal", Toast.LENGTH_SHORT).show()
         if (User.id_usr.isNotBlank()) {
             btnIniciarSesion.isEnabled = false
             btnRegistro.isEnabled = false
             tvCerrarSesion.isVisible = true
+            finish()
+            abrirListaOfertas()
         }
     }
 

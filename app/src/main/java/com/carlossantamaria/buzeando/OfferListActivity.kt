@@ -16,13 +16,18 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.carlossantamaria.buzeando.objects.Offer
 import com.carlossantamaria.buzeando.offerlist.OfferListAdapter
+import com.google.android.material.search.SearchBar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class OfferListActivity : AppCompatActivity() {
 
-    private lateinit var rvListaOfertas: RecyclerView
     private lateinit var adapterListaOfertas: OfferListAdapter
+    private lateinit var rvListaOfertas: RecyclerView
+
+    private lateinit var sbDireccion: SearchBar
+    private lateinit var btnFiltrar: Button
+    private lateinit var btnCrearOferta: Button
     private lateinit var btnMapa: Button
     private lateinit var btnPerfil: Button
 
@@ -45,6 +50,10 @@ class OfferListActivity : AppCompatActivity() {
     private fun initComponents() {
         adapterListaOfertas = OfferListAdapter(emptyList())
         rvListaOfertas = findViewById(R.id.rvListaOfertas)
+
+        sbDireccion = findViewById(R.id.sbDireccion)
+        btnFiltrar = findViewById(R.id.btnFiltrar)
+        btnCrearOferta = findViewById(R.id.btnCrearOferta)
         btnMapa = findViewById(R.id.btnMapa)
         btnPerfil = findViewById(R.id.btnPerfil)
     }
@@ -53,12 +62,21 @@ class OfferListActivity : AppCompatActivity() {
         rvListaOfertas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvListaOfertas.adapter = adapterListaOfertas
 
+        sbDireccion.setOnClickListener {  }
+        btnFiltrar.setOnClickListener {  }
+        btnCrearOferta.setOnClickListener { abrirCrearOferta() }
         btnMapa.setOnClickListener { abrirMapa() }
         btnPerfil.setOnClickListener { abrirPerfil() }
     }
 
+    private fun abrirCrearOferta() {
+        val intent = Intent(this, AddOfferActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun abrirMapa() {
         val intent = Intent(this, MapViewActivity::class.java)
+        finish()
         startActivity(intent)
     }
 

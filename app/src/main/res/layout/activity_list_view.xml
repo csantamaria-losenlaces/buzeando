@@ -67,21 +67,6 @@
             android:layout_height="wrap_content"
             android:text="Crear oferta"
             android:layout_gravity="center"/>
-
-        <Button
-            android:id="@+id/btnUbicarUsuario"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:contentDescription="Icono de ubicación"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:icon="@drawable/outline_my_location_black_48"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:iconSize="24dp"
-            android:layout_gravity="end"/>
     </FrameLayout>
 
     <LinearLayout

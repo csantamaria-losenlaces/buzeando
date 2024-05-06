@@ -57,7 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="[DEV] Nueva oferta" />
+            android:text="[DEV] Nueva oferta"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btnMapa"
@@ -65,7 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="[DEV] Ofertas (mapa)" />
+            android:text="[DEV] Ofertas (mapa)"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btnListaOfertas"
@@ -73,7 +75,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="[DEV] Ofertas (lista)" />
+            android:text="[DEV] Ofertas (lista)"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btnDetallesOferta"

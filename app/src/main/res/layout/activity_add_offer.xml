@@ -41,15 +41,15 @@
         <RadioButton
             android:id="@+id/rbProducto"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:text="Producto" />
 
         <RadioButton
             android:id="@+id/rbServicio"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:text="Servicio" />
     </RadioGroup>
 
@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:hint="Introduce un título..."
-        android:inputType="textPersonName|textCapWords"
+        android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTituloOferta" />
@@ -84,11 +84,11 @@
         app:layout_constraintTop_toBottomOf="@id/etTituloOferta" />
 
     <EditText
-        android:id="@+id/etDescripción"
+        android:id="@+id/etDescripcion"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:hint="Introduce una descripción..."
-        android:inputType="textPersonName|textCapWords"
+        android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDescripción" />
@@ -100,41 +100,43 @@
         android:layout_height="36dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etDescripción">
+        app:layout_constraintTop_toBottomOf="@id/etDescripcion">
 
         <!-- Precio -->
         <TextView
             android:id="@+id/tvPrecio"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="fill_vertical"
             android:text="Precio" />
 
         <EditText
             android:id="@+id/etPrecio"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="match_parent"
-            android:inputType="textPostalAddress|textCapSentences"
-            android:textSize="14sp" />
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
+            android:textSize="14sp"
+            android:longClickable="false"/>
 
         <!-- Código postal -->
         <TextView
             android:id="@+id/tvCodPostal"
             android:layout_width="0dp"
-            android:layout_weight="1.25"
             android:layout_height="match_parent"
+            android:layout_weight="1.25"
             android:gravity="fill_vertical"
             android:text="Cód. postal" />
 
         <EditText
             android:id="@+id/etCodPostal"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="match_parent"
-            android:inputType="textPostalAddress|textCapSentences"
-            android:textSize="14sp" />
+            android:layout_weight="2"
+            android:inputType="number"
+            android:textSize="14sp"
+            android:longClickable="false"/>
 
     </LinearLayout>
 
@@ -142,12 +144,22 @@
         android:id="@+id/btnSubirImagen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llPrecioCodPostal"
-        app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="Icono de galería"
+        android:text="Elegir imágenes"
         app:icon="@drawable/baseline_collections_48"
         app:iconGravity="textStart"
-        android:text="Subir imagen"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llPrecioCodPostal"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnCrearOferta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Crear oferta"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
