@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun abrirMapa() {
-        val intent = Intent(this, MapViewActivity::class.java)
+        val intent = Intent(this, OfferMapActivity::class.java)
         startActivity(intent)
     }
 

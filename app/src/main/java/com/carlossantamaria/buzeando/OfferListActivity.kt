@@ -75,7 +75,7 @@ class OfferListActivity : AppCompatActivity() {
     }
 
     private fun abrirMapa() {
-        val intent = Intent(this, MapViewActivity::class.java)
+        val intent = Intent(this, OfferMapActivity::class.java)
         finish()
         startActivity(intent)
     }

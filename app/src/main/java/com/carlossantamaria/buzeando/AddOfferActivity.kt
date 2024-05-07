@@ -56,8 +56,8 @@ class AddOfferActivity : AppCompatActivity() {
     private lateinit var btnCrearOferta: Button
     private lateinit var uploadViewModel: UploadViewModel
     private lateinit var startAutocomplete: ActivityResultLauncher<Intent>
+    private lateinit var coordsLatLng: LatLng
 
-    private var latLngSeleccion: LatLng = LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -79,11 +79,11 @@ class AddOfferActivity : AppCompatActivity() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     val intent: Intent? = result.data
                     if (intent != null) {
-                        val place: Place = Autocomplete.getPlaceFromIntent(intent)
+                        val place = Autocomplete.getPlaceFromIntent(intent)
                         val addressComponents = place.addressComponents
 
-                        Log.i("Valor de latLng", place.latLng.toString())
-                        if (place.latLng != null) latLngSeleccion = place.latLng
+                        coordsLatLng = place.latLng!!
+                        Log.i("Valor de coordsLatLng", "${coordsLatLng.latitude}, ${coordsLatLng.longitude}")
 
                         tvDireccion.text = StringBuilder()
                             .append("Dirección: ")
@@ -94,7 +94,6 @@ class AddOfferActivity : AppCompatActivity() {
                             val codPostal = component.types.find { "postal_code" == it }
                             if (!codPostal.isNullOrEmpty()) tvCodPostalValor.text = component.name
                         }
-
                     }
                 } else if (result.resultCode == Activity.RESULT_CANCELED) {
                     Log.i("Places API", "User canceled autocomplete")
@@ -139,8 +138,7 @@ class AddOfferActivity : AppCompatActivity() {
 
     private fun initUI() {
         btnSubirImagen.setOnClickListener {
-            Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show()
             /*val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             galleryLauncher.launch(galleryIntent)*/
         }
@@ -150,8 +148,7 @@ class AddOfferActivity : AppCompatActivity() {
         }
         btnCrearOferta.setOnClickListener {
             if (!camposCumplimentados()) {
-                Toast.makeText(this, "Asegúrate de elegir el tipo de oferta y rellenar todos los campos", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Asegúrate de elegir el tipo de oferta y rellenar todos los campos", Toast.LENGTH_SHORT).show()
             } else {
                 it.ocultarTeclado()
                 crearOferta()
@@ -176,7 +173,7 @@ class AddOfferActivity : AppCompatActivity() {
 
     private fun lanzarPlacesAPI() {
         // Set the fields to specify which types of place data to return after the user has made a selection
-        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS)
+        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG)
 
         // Start the autocomplete intent
         val autoCompleteIntent: Intent =
@@ -184,8 +181,6 @@ class AddOfferActivity : AppCompatActivity() {
                 .setCountries(listOf("ES"))
                 .setTypesFilter(listOf("address"))
                 .build(this)
-
-
 
         startAutocomplete.launch(autoCompleteIntent)
     }
@@ -208,6 +203,8 @@ class AddOfferActivity : AppCompatActivity() {
             R.id.rbServicio -> tipoOferta = "Servicio"
         }
 
+        Log.i("coordsLatLng", "${coordsLatLng.latitude}, ${coordsLatLng.longitude}")
+
         val parametros = hashMapOf(
             "id_usr" to User.id_usr,
             "tipo" to tipoOferta,
@@ -217,8 +214,8 @@ class AddOfferActivity : AppCompatActivity() {
             "descripcion" to etDescripcion.text.toString(),
             "coste" to etPrecio.text.toString(),
             "cod_postal" to tvCodPostalValor.text.toString(),
-            "coords_lat" to latLngSeleccion.latitude.toString(),
-            "coords_long" to latLngSeleccion.longitude.toString()
+            "coords_lat" to coordsLatLng.latitude.toString(),
+            "coords_long" to coordsLatLng.longitude.toString()
         )
 
         parametros.forEach { (t, u) -> Log.i("Array de parámetros:", "$t = $u") }

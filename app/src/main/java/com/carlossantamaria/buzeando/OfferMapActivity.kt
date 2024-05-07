@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.carlossantamaria.buzeando.objects.Offer
 import com.carlossantamaria.buzeando.objects.Waypoint
 import com.carlossantamaria.buzeando.utils.LoadOffersFromDb
 import com.carlossantamaria.buzeando.utils.PermissionUtils
@@ -24,11 +25,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapViewActivity : AppCompatActivity(),
+class OfferMapActivity : AppCompatActivity(),
     GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMyLocationClickListener,
+    GoogleMap.OnInfoWindowClickListener,
     OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -71,33 +74,29 @@ class MapViewActivity : AppCompatActivity(),
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.setOnInfoWindowClickListener(this)
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
         enableMyLocation()
 
-        val cpifplosenlaces = LatLng(41.645180, -0.916480)
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(cpifplosenlaces)
-                .title("CPIFP Los Enlaces")
-                .snippet("Gata random inside")
-        )
-
         LoadOffersFromDb.cargarOfertas(this) { offerList ->
             if (offerList.isNotEmpty()) {
                 offerList.forEach {
-                    listaCoordenadas.add(Waypoint(it.titulo, it.descripcion, LatLng(it.coordsLat, it.coordsLong)))
+                    listaCoordenadas.add(Waypoint(it, it.titulo, it.descripcion, LatLng(it.coordsLat, it.coordsLong)))
                     Log.i("Lista coordenadas", "Latitud: ${it.coordsLat}, Longitud: ${it.coordsLong}"
                     )
                 }
                 // Add markers after listaCoordenadas is populated
                 listaCoordenadas.forEach {
-                    googleMap.addMarker(
+                    val marker = googleMap.addMarker(
                         MarkerOptions()
                             .position(it.coordenadas)
                             .title(it.titulo)
-                            .snippet(it.descripcion)
+                            .snippet("${it.descripcion.substring(0,
+                                it.descripcion.length.coerceAtMost(25)
+                            )}...")
                     )
+                    marker?.tag = it.oferta
                 }
             }
         }
@@ -214,6 +213,17 @@ class MapViewActivity : AppCompatActivity(),
          * @see .onRequestPermissionsResult
          */
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        val offer = marker.tag as Offer
+        abrirDetallesOferta(offer)
+    }
+
+    private fun abrirDetallesOferta(offer: Offer) {
+        val intent = Intent(this, OfferDetailsActivity::class.java)
+        intent.putExtra("offer_object", offer)
+        startActivity(intent)
     }
 
 }

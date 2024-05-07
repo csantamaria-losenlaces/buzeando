@@ -27,7 +27,7 @@
             android:name=".AddOfferActivity"
             android:exported="false" />
         <activity
-            android:name=".MapViewActivity"
+            android:name=".OfferMapActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

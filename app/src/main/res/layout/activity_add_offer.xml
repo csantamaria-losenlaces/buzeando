@@ -86,12 +86,17 @@
     <EditText
         android:id="@+id/etDescripcion"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="180dp"
         android:hint="Introduce una descripción..."
-        android:inputType="text"
-        android:textSize="16sp"
+        android:inputType="textCapSentences|textMultiLine"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDescripción" />
+        app:layout_constraintTop_toBottomOf="@id/tvDescripción"
+        android:gravity="top|start"
+        android:padding="0dp"
+        android:scrollHorizontally="false"
+        android:maxLength="2000"
+        android:background="@null"/>
 
     <!-- Contenedor Precio y Código postal -->
     <LinearLayout
