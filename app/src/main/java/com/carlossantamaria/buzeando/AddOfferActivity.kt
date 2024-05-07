@@ -1,5 +1,6 @@
 package com.carlossantamaria.buzeando
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -13,8 +14,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,6 +28,11 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.carlossantamaria.buzeando.imageupload.UploadViewModel
 import com.carlossantamaria.buzeando.objects.User
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -39,10 +49,15 @@ class AddOfferActivity : AppCompatActivity() {
     private lateinit var etTituloOferta: EditText
     private lateinit var etDescripcion: EditText
     private lateinit var etPrecio: EditText
-    private lateinit var etCodPostal: EditText
+    private lateinit var tvCodPostalValor: TextView
     private lateinit var btnSubirImagen: Button
+    private lateinit var btnElegirUbicacion: Button
+    private lateinit var tvDireccion: TextView
     private lateinit var btnCrearOferta: Button
     private lateinit var uploadViewModel: UploadViewModel
+    private lateinit var startAutocomplete: ActivityResultLauncher<Intent>
+
+    private var latLngSeleccion: LatLng = LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -57,6 +72,34 @@ class AddOfferActivity : AppCompatActivity() {
 
         initComponents()
         initUI()
+        inicializarPlacesAPI()
+
+        startAutocomplete =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val intent: Intent? = result.data
+                    if (intent != null) {
+                        val place: Place = Autocomplete.getPlaceFromIntent(intent)
+                        val addressComponents = place.addressComponents
+
+                        Log.i("Valor de latLng", place.latLng.toString())
+                        if (place.latLng != null) latLngSeleccion = place.latLng
+
+                        tvDireccion.text = StringBuilder()
+                            .append("Dirección: ")
+                            .append(place.name)
+
+                        addressComponents?.asList()?.forEach { component ->
+                            Log.i("Places API", component.toString())
+                            val codPostal = component.types.find { "postal_code" == it }
+                            if (!codPostal.isNullOrEmpty()) tvCodPostalValor.text = component.name
+                        }
+
+                    }
+                } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                    Log.i("Places API", "User canceled autocomplete")
+                }
+            }
 
         /*val galleryLauncher =
             registerForActivityResult(
@@ -86,21 +129,29 @@ class AddOfferActivity : AppCompatActivity() {
         etTituloOferta = findViewById(R.id.etTituloOferta)
         etDescripcion = findViewById(R.id.etDescripcion)
         etPrecio = findViewById(R.id.etPrecio)
-        etCodPostal = findViewById(R.id.etCodPostal)
+        tvCodPostalValor = findViewById(R.id.tvCodPostalValor)
         btnSubirImagen = findViewById(R.id.btnSubirImagen)
+        btnElegirUbicacion = findViewById(R.id.btnElegirUbicacion)
+        tvDireccion = findViewById(R.id.tvDireccion)
         btnCrearOferta = findViewById(R.id.btnCrearOferta)
         // uploadViewModel = ViewModelProvider(this)[UploadViewModel::class.java]
     }
 
     private fun initUI() {
         btnSubirImagen.setOnClickListener {
-            Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT)
+                .show()
             /*val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             galleryLauncher.launch(galleryIntent)*/
         }
+        btnElegirUbicacion.setOnClickListener {
+            it.ocultarTeclado()
+            lanzarPlacesAPI()
+        }
         btnCrearOferta.setOnClickListener {
             if (!camposCumplimentados()) {
-                Toast.makeText(this, "Asegúrate de elegir el tipo de oferta y rellenar todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Asegúrate de elegir el tipo de oferta y rellenar todos los campos", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 it.ocultarTeclado()
                 crearOferta()
@@ -108,8 +159,39 @@ class AddOfferActivity : AppCompatActivity() {
         }
     }
 
+    private fun inicializarPlacesAPI() {
+        // Define a variable to hold the Places API key.
+        val apiKey = BuildConfig.PLACES_API_KEY
+
+        // Log an error if apiKey is not set.
+        if (apiKey.isEmpty() || apiKey == "DEFAULT_API_KEY") {
+            Log.e("Places test", "No api key")
+            finish()
+            return
+        }
+
+        // Initialize the SDK
+        Places.initialize(applicationContext, apiKey)
+    }
+
+    private fun lanzarPlacesAPI() {
+        // Set the fields to specify which types of place data to return after the user has made a selection
+        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS)
+
+        // Start the autocomplete intent
+        val autoCompleteIntent: Intent =
+            Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .setCountries(listOf("ES"))
+                .setTypesFilter(listOf("address"))
+                .build(this)
+
+
+
+        startAutocomplete.launch(autoCompleteIntent)
+    }
+
     private fun camposCumplimentados(): Boolean {
-        return !(rgTipo.checkedRadioButtonId == -1 || etTituloOferta.text.isNullOrEmpty() || etDescripcion.text.isNullOrEmpty() || etPrecio.text.isNullOrEmpty() || etCodPostal.text.isNullOrEmpty())
+        return !(rgTipo.checkedRadioButtonId == -1 || etTituloOferta.text.isNullOrEmpty() || etDescripcion.text.isNullOrEmpty() || etPrecio.text.isNullOrEmpty() || tvCodPostalValor.text == "(Sin definir)")
     }
 
     private fun View.ocultarTeclado() {
@@ -118,39 +200,42 @@ class AddOfferActivity : AppCompatActivity() {
     }
 
     private fun crearOferta() {
-            val url = "http://77.90.13.129/android/addoffer.php"
-            var tipoOferta = ""
+        val url = "http://77.90.13.129/android/addoffer.php"
+        var tipoOferta = ""
 
-            when (rgTipo.checkedRadioButtonId) {
-                R.id.rbProducto -> tipoOferta = "Producto"
-                R.id.rbServicio -> tipoOferta = "Servicio"
-            }
+        when (rgTipo.checkedRadioButtonId) {
+            R.id.rbProducto -> tipoOferta = "Producto"
+            R.id.rbServicio -> tipoOferta = "Servicio"
+        }
 
-            val parametros = hashMapOf(
-                "id_usr" to User.id_usr,
-                "tipo" to tipoOferta,
-                "fecha" to LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString(),
-                "titulo" to etTituloOferta.text.toString(),
-                "descripcion" to etDescripcion.text.toString(),
-                "coste" to etPrecio.text.toString(),
-                "cod_postal" to etCodPostal.text.toString()
-            )
+        val parametros = hashMapOf(
+            "id_usr" to User.id_usr,
+            "tipo" to tipoOferta,
+            "fecha" to LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString(),
+            "titulo" to etTituloOferta.text.toString(),
+            "descripcion" to etDescripcion.text.toString(),
+            "coste" to etPrecio.text.toString(),
+            "cod_postal" to tvCodPostalValor.text.toString(),
+            "coords_lat" to latLngSeleccion.latitude.toString(),
+            "coords_long" to latLngSeleccion.longitude.toString()
+        )
 
-            parametros.forEach { t, u -> Log.i("Array de parámetros:", "$t = $u") }
+        parametros.forEach { (t, u) -> Log.i("Array de parámetros:", "$t = $u") }
 
-            enviarDatosNuevaOferta(url, parametros, onResponseListener = {
-                val builder = AlertDialog.Builder(this)
-                builder.setMessage("Oferta creada con éxito. Vas a regresar al listado de ofertas")
-                    .setPositiveButton("Aceptar") { _, _ -> abrirListaOfertas() }
-                builder.create().show()
-            }) {
-                val builder = AlertDialog.Builder(this)
-                builder.setMessage("Ha ocurrido un error al crear la oferta. Revisa si la información es correcta o inténtalo de nuevo más tarde")
-                    .setPositiveButton("Volver") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                builder.create().show()
-            }
+        enviarDatosNuevaOferta(url, parametros, onResponseListener = {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("Oferta creada con éxito. Vas a regresar al listado de ofertas")
+                .setPositiveButton("Aceptar") { _, _ -> abrirListaOfertas() }
+            builder.create().show()
+        }) {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("Ha ocurrido un error al crear la oferta. Revisa si la información es correcta o inténtalo de nuevo más tarde")
+                .setPositiveButton("Volver") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            builder.create().show()
+        }
     }
 
     private fun enviarDatosNuevaOferta(
