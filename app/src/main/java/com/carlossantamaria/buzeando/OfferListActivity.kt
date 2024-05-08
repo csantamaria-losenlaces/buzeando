@@ -81,9 +81,9 @@ class OfferListActivity : AppCompatActivity() {
     }
 
     private fun abrirPerfil() {
-        /*val intent = Intent(this, OfferListActivity::class.java)
-        startActivity(intent)*/
-        Toast.makeText(this, "Esta sección estará disponible muy pronto", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, ProfileActivity::class.java)
+        finish()
+        startActivity(intent)
     }
 
     private fun cargarOfertas(callback: (MutableList<Offer>) -> Unit) {

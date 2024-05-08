@@ -69,7 +69,9 @@ class OfferMapActivity : AppCompatActivity(),
     }
 
     private fun abrirPerfil() {
-        Toast.makeText(this, "Esta sección estará disponible muy pronto", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, ProfileActivity::class.java)
+        finish()
+        startActivity(intent)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
