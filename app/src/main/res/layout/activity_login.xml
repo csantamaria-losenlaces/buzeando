@@ -25,7 +25,7 @@
     <TextView
         android:id="@+id/tvCorreoElec"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Correo electrónico"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +34,8 @@
     <EditText
         android:id="@+id/etCorreoElec"
         android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:hint="Introduce tu correo electrónico"
+        android:layout_height="48dp"
+        android:hint="Introduce tu correo electrónico..."
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvCorreoElec"
@@ -46,7 +46,7 @@
     <TextView
         android:id="@+id/tvContrasena"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Contraseña"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,8 +55,8 @@
     <EditText
         android:id="@+id/etContrasena"
         android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:hint="Introduce tu contraseña"
+        android:layout_height="48dp"
+        android:hint="Introduce tu contraseña..."
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvContrasena"

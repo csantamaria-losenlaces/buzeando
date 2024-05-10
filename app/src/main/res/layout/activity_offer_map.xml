@@ -5,80 +5,35 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="12dp"
-    tools:context=".OfferListActivity">
+    tools:context=".OfferMapActivity">
 
-    <LinearLayout
-        android:id="@+id/llContenedorSuperior"
-        android:layout_width="match_parent"
+    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/sbDireccion"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            app:layout_constraintEnd_toStartOf="@id/btnFiltrar"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/btnFiltrar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:contentDescription="Icono de filtro"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:icon="@drawable/filter_list"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:iconSize="24dp"
-            android:layout_gravity="center"/>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvListaOfertas"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/flContenedorBotonesInferiores"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llContenedorSuperior" />
-
-    <FrameLayout
-        android:id="@+id/flContenedorBotonesInferiores"
-        app:layout_constraintTop_toBottomOf="@id/rvListaOfertas"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/llNavegacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="16dp">
-
-        <Button
-            android:id="@+id/btnCrearOferta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Crear oferta"
-            android:layout_gravity="center"/>
-    </FrameLayout>
+        map:cameraTargetLat="41.645180"
+        map:cameraTargetLng="-0.916480"
+        map:cameraZoom="12"
+        map:layout_constraintBottom_toTopOf="@id/llNavegacion"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:uiCompass="true"
+        map:uiZoomControls="true" />
 
     <LinearLayout
         android:id="@+id/llNavegacion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="12dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flContenedorBotonesInferiores">
+        app:layout_constraintTop_toBottomOf="@id/map"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -108,7 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mapa"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -139,8 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lista"
-                android:textAlignment="center"
-                android:textStyle="bold" />
+                android:textAlignment="center" />
         </LinearLayout>
 
         <LinearLayout
@@ -175,6 +130,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

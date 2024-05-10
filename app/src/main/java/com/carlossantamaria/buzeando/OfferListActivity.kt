@@ -34,7 +34,7 @@ class OfferListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_list_view)
+        setContentView(R.layout.activity_offer_list)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -48,7 +48,10 @@ class OfferListActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
-        adapterListaOfertas = OfferListAdapter(emptyList())
+        adapterListaOfertas = OfferListAdapter(emptyList()) {
+            Log.i("RecyclerView", "ID de oferta pulsada: ${it.idOferta}")
+            abrirDetallesOferta(it)
+        }
         rvListaOfertas = findViewById(R.id.rvListaOfertas)
 
         sbDireccion = findViewById(R.id.sbDireccion)
@@ -67,6 +70,7 @@ class OfferListActivity : AppCompatActivity() {
         btnCrearOferta.setOnClickListener { abrirCrearOferta() }
         btnMapa.setOnClickListener { abrirMapa() }
         btnPerfil.setOnClickListener { abrirPerfil() }
+        rvListaOfertas
     }
 
     private fun abrirCrearOferta() {
@@ -132,6 +136,12 @@ class OfferListActivity : AppCompatActivity() {
                 adapterListaOfertas.update(offerList)
             }
         }
+    }
+
+    private fun abrirDetallesOferta(offer: Offer) {
+        val intent = Intent(this, OfferDetailsActivity::class.java)
+        intent.putExtra("offer_object", offer)
+        startActivity(intent)
     }
 
 }

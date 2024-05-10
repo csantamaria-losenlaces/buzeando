@@ -40,6 +40,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etMovil: EditText
     private lateinit var etCorreoElec: EditText
     private lateinit var etContrasena: EditText
+    private lateinit var etContrasenaRepetir: EditText
 
     private lateinit var cbCondiciones: CheckBox
     private lateinit var btnRegistro: Button
@@ -64,6 +65,7 @@ class RegisterActivity : AppCompatActivity() {
         etMovil = findViewById(R.id.etMovil)
         etCorreoElec = findViewById(R.id.etCorreoElec)
         etContrasena = findViewById(R.id.etContrasena)
+        etContrasenaRepetir = findViewById(R.id.etContrasenaRepetir)
 
         cbCondiciones = findViewById(R.id.cbCondiciones)
         btnRegistro = findViewById(R.id.btnRegistro)
@@ -117,7 +119,16 @@ class RegisterActivity : AppCompatActivity() {
 
         btnRegistro.setOnClickListener {
             it.ocultarTeclado()
-            crearCuenta()
+            if (!claveCoincide()) {
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Los campos de contraseña no coinciden")
+                    .setPositiveButton("Volver") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                builder.create().show()
+            } else {
+                crearCuenta()
+            }
         }
 
     }
@@ -134,8 +145,8 @@ class RegisterActivity : AppCompatActivity() {
                 if (existe != 0) {
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage("El e-mail introducido ya existe.")
-                        .setPositiveButton("Iniciar sesión") { dialog, id -> abrirIdentificar() }
-                        .setNegativeButton("Volver") { dialog, id -> dialog.dismiss() }
+                        .setPositiveButton("Iniciar sesión") { _, _ -> abrirIdentificar() }
+                        .setNegativeButton("Volver") { dialog, _ -> dialog.dismiss() }
                     builder.create().show()
                 } else {
                     val url = "http://77.90.13.129/android/save.php"
@@ -158,7 +169,7 @@ class RegisterActivity : AppCompatActivity() {
                     }, onErrorListener = {
                         val builder = AlertDialog.Builder(this)
                         builder.setMessage("Ha ocurrido un error al crear la cuenta. Revisa si el e-mail ya existe")
-                            .setPositiveButton("Aceptar") { dialog, id ->
+                            .setPositiveButton("Aceptar") { dialog, _ ->
                                 dialog.dismiss()
                             }
                         builder.create().show()
@@ -169,7 +180,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun camposCumplimentados(): Boolean {
-        return !(etNombre.text.isNullOrEmpty() || etApellidos.text.isNullOrEmpty() || etDireccion.text.isNullOrEmpty() || etCodPostal.text.isNullOrEmpty() || etMovil.text.isNullOrEmpty() || etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty())
+        return !(etNombre.text.isNullOrEmpty() || etApellidos.text.isNullOrEmpty() || etDireccion.text.isNullOrEmpty() || etCodPostal.text.isNullOrEmpty()
+                || etMovil.text.isNullOrEmpty() || etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty()) || etContrasenaRepetir.text.isNullOrEmpty()
     }
 
     private fun enviarDatosRegistro(
@@ -233,15 +245,16 @@ class RegisterActivity : AppCompatActivity() {
             },
             {
                 Log.i("Log personalizado", "Respuesta no exitosa")
-                Toast.makeText(
-                    this,
-                    "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this, "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.", Toast.LENGTH_LONG)
+                    .show()
                 callback(-1) // Envía un valor predeterminado en caso de error
             }
         )
         requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun claveCoincide(): Boolean {
+        return (etContrasena.text.toString() == etContrasenaRepetir.text.toString())
     }
 
 }

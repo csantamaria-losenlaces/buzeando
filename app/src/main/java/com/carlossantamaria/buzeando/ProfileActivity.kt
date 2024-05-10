@@ -1,6 +1,7 @@
 package com.carlossantamaria.buzeando
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -21,8 +22,10 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var etMovil: TextView
     private lateinit var etCorreoElec: TextView
     private lateinit var etContrasena: TextView
-    private lateinit var etRepetirContrasena: TextView
+    private lateinit var etContrasenaRepetir: TextView
     private lateinit var btnGuardar: Button
+    private lateinit var btnMapa: Button
+    private lateinit var btnListaOfertas: Button
     private val hayCambios:Array<Boolean> = arrayOf(false, false, false, false, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +54,10 @@ class ProfileActivity : AppCompatActivity() {
         etMovil = findViewById(R.id.etMovil)
         etCorreoElec = findViewById(R.id.etCorreoElec)
         etContrasena = findViewById(R.id.etContrasena)
-        etRepetirContrasena = findViewById(R.id.etRepetirContrasena)
+        etContrasenaRepetir = findViewById(R.id.etRepetirContrasena)
         btnGuardar = findViewById(R.id.btnGuardar)
+        btnMapa = findViewById(R.id.btnMapa)
+        btnListaOfertas = findViewById(R.id.btnListaOfertas)
 
     }
 
@@ -71,13 +76,13 @@ class ProfileActivity : AppCompatActivity() {
             btnGuardar.isEnabled = hayCambios.contains(true)
         }
         etContrasena.addTextChangedListener {
-            hayCambios[3] = (etContrasena.text.isNotEmpty() && etRepetirContrasena.text.isNotEmpty())
-            hayCambios[4] = (etContrasena.text.isNotEmpty() && etRepetirContrasena.text.isNotEmpty())
+            hayCambios[3] = (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
+            hayCambios[4] = (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
             btnGuardar.isEnabled = hayCambios.contains(true)
         }
-        etRepetirContrasena.addTextChangedListener {
-            hayCambios[4] = (etRepetirContrasena.text.isNotEmpty() && etContrasena.text.isNotEmpty())
-            hayCambios[3] = (etContrasena.text.isNotEmpty() && etRepetirContrasena.text.isNotEmpty())
+        etContrasenaRepetir.addTextChangedListener {
+            hayCambios[4] = (etContrasenaRepetir.text.isNotEmpty() && etContrasena.text.isNotEmpty())
+            hayCambios[3] = (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
             btnGuardar.isEnabled = hayCambios.contains(true)
         }
         btnGuardar.setOnClickListener {
@@ -94,6 +99,10 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
+        btnMapa.setOnClickListener { abrirMapa() }
+
+        btnListaOfertas.setOnClickListener { abrirListaOfertas() }
+
     }
 
     private fun recuperarDatosUsuario() {
@@ -108,7 +117,19 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun claveCoincide(): Boolean {
-        return (etContrasena.text.toString() == etRepetirContrasena.text.toString())
+        return (etContrasena.text.toString() == etContrasenaRepetir.text.toString())
+    }
+
+    private fun abrirMapa() {
+        val intent = Intent(this, OfferMapActivity::class.java)
+        finish()
+        startActivity(intent)
+    }
+
+    private fun abrirListaOfertas() {
+        val intent = Intent(this, OfferListActivity::class.java)
+        finish()
+        startActivity(intent)
     }
 
 }

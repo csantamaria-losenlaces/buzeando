@@ -9,16 +9,17 @@
         android:id="@+id/cvTipoOferta"
         android:layout_width="128dp"
         android:layout_height="24dp"
-        android:layout_marginBottom="-18dp"
-        android:layout_marginStart="16dp">
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="-18dp">
+
         <TextView
             android:id="@+id/tvTipoOferta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Producto"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:textSize="14sp"/>
+            android:text="Producto"
+            android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -30,41 +31,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/ivImagenPrincipal"
                 android:layout_width="88dp"
                 android:layout_height="88dp"
-                android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
                 android:contentDescription="Imagen principal de la oferta"
                 android:src="#64B5F6" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tvTituloOferta"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1.25"
                     android:text="Título de la oferta"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/tvDescOferta"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
                     android:text="Descripción de la oferta"
-                    android:textSize="11sp"/>
+                    android:textSize="11sp" />
+
                 <TextView
                     android:id="@+id/tvPrecio"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1.25"
                     android:text="Precio: 999.999,99€"
-                    android:textSize="14sp"
-                    android:textAlignment="textEnd"/>
+                    android:textAlignment="textEnd"
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </LinearLayout>

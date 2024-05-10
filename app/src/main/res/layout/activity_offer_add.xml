@@ -25,7 +25,7 @@
     <TextView
         android:id="@+id/tvTipo"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:text="Tipo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCrearOferta" />
@@ -33,7 +33,7 @@
     <RadioGroup
         android:id="@+id/rgTipo"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTipo">
@@ -54,55 +54,89 @@
     </RadioGroup>
 
     <!-- Título oferta -->
-    <TextView
-        android:id="@+id/tvTituloOferta"
-        android:layout_width="120dp"
-        android:layout_height="36dp"
-        android:gravity="fill_vertical"
-        android:text="Título"
+    <LinearLayout
+        android:id="@+id/llTituloOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgTipo" />
+        app:layout_constraintTop_toBottomOf="@id/rgTipo">
+        <TextView
+            android:id="@+id/tvTituloOferta"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="fill_vertical"
+            android:text="Título" />
+        <TextView
+            android:id="@+id/tvTituloDemasiadoLargo"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="wrap_content"
+            android:gravity="end|center_vertical"
+            android:text="[ ! ] Límite de caracteres alcanzado"
+            android:textColor="#FF0000"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/etTituloOferta"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:hint="Introduce un título..."
+        android:importantForAutofill="no"
         android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTituloOferta" />
+        app:layout_constraintTop_toBottomOf="@id/llTituloOferta"
+        android:maxLength="100"/>
 
     <!-- Descripción -->
-    <TextView
-        android:id="@+id/tvDescripción"
-        android:layout_width="120dp"
-        android:layout_height="36dp"
-        android:gravity="fill_vertical"
-        android:text="Descripción"
+    <LinearLayout
+        android:id="@+id/llDescOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etTituloOferta" />
+        app:layout_constraintTop_toBottomOf="@id/etTituloOferta">
+        <TextView
+            android:id="@+id/tvDescripción"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="fill_vertical"
+            android:text="Descripción" />
+
+        <TextView
+            android:id="@+id/tvDescDemasiadoLarga"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="end|center_vertical"
+            android:text="[ ! ] Límite de caracteres alcanzado"
+            android:textColor="#FF0000"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/etDescripcion"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:hint="Introduce una descripción..."
-        android:inputType="textCapSentences|textMultiLine"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDescripción"
+        android:background="@null"
         android:gravity="top|start"
+        android:hint="Introduce una descripción..."
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="750"
         android:padding="0dp"
         android:scrollHorizontally="false"
-        android:maxLength="2000"
-        android:background="@null"/>
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llDescOferta" />
 
     <!-- Contenedor Precio y Código postal -->
     <LinearLayout
         android:id="@+id/llPrecioCodPostal"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etDescripcion">
@@ -121,6 +155,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:longClickable="false"
             android:textSize="14sp" />
@@ -130,19 +165,21 @@
             android:id="@+id/tvCodPostal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.25"
+            android:layout_weight="1.4"
             android:gravity="fill_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:text="Cód. postal" />
 
         <TextView
             android:id="@+id/tvCodPostalValor"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:enabled="false"
-            android:textSize="14sp"
             android:gravity="center"
-            android:text="(Sin definir)"/>
+            android:text="(Sin definir)"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -173,7 +210,7 @@
     <TextView
         android:id="@+id/tvDireccion"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="@string/selected_address_placeholder"

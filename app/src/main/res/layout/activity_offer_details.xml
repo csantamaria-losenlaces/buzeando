@@ -35,20 +35,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Oferta creada el XX/XX/XXXX"
+        android:textSize="12sp"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTituloOferta"
-        android:textSize="12sp"/>
+        app:layout_constraintTop_toBottomOf="@id/tvTituloOferta" />
 
     <TextView
         android:id="@+id/tvDescOferta"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:text="@string/lorem_ipsum"
         app:layout_constraintBottom_toTopOf="@id/rvImagenes"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvFechaCreacion"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tvFechaCreacion" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvImagenes"
@@ -68,21 +68,21 @@
             android:id="@+id/tvPrecio"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1.2"
             android:gravity="center_vertical"
             android:text="999.999,99€"
-            android:layout_marginEnd="8dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnPerfil"
             android:layout_width="128dp"
             android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
             android:contentDescription="Botón de chat"
             android:text="Perfil"
             app:icon="@drawable/outline_account_circle_black_48dp"
-            app:iconGravity="textStart"
-            android:layout_marginEnd="8dp"/>
+            app:iconGravity="textStart" />
 
         <Button
             android:id="@+id/btnChat"
@@ -91,7 +91,7 @@
             android:contentDescription="Botón de chat"
             android:text="Chat"
             app:icon="@drawable/outline_chat_black_48dp"
-            app:iconGravity="textStart"/>
+            app:iconGravity="textStart" />
 
     </LinearLayout>
 

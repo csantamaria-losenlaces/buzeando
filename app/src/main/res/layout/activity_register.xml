@@ -25,7 +25,7 @@
     <TextView
         android:id="@+id/tvNombre"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Nombre"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,40 +34,42 @@
     <EditText
         android:id="@+id/etNombre"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:hint="Introduce tu nombre..."
+        android:importantForAutofill="no"
+        android:inputType="textPersonName|textCapWords"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvNombre"
-        app:layout_constraintTop_toBottomOf="@id/tvRegistro"
-        android:inputType="textPersonName|textCapWords"/>
+        app:layout_constraintTop_toBottomOf="@id/tvRegistro" />
 
     <!-- Apellidos -->
     <TextView
         android:id="@+id/tvApellidos"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Apellidos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNombre"/>
+        app:layout_constraintTop_toBottomOf="@id/tvNombre" />
 
     <EditText
         android:id="@+id/etApellidos"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:hint="Introduce tus apellidos..."
+        android:importantForAutofill="no"
+        android:inputType="textPersonName|textCapWords"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvApellidos"
-        app:layout_constraintTop_toBottomOf="@id/tvNombre"
-        android:inputType="textPersonName|textCapWords"/>
+        app:layout_constraintTop_toBottomOf="@id/tvNombre" />
 
     <!-- Dirección -->
     <TextView
         android:id="@+id/tvDireccion"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Dirección"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,19 +78,20 @@
     <EditText
         android:id="@+id/etDireccion"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
+        android:autofillHints="postalAddress"
         android:hint="Introduce tu dirección..."
+        android:inputType="textPostalAddress|textCapSentences"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDireccion"
-        app:layout_constraintTop_toBottomOf="@id/tvApellidos"
-        android:inputType="textPostalAddress|textCapSentences"/>
+        app:layout_constraintTop_toBottomOf="@id/tvApellidos" />
 
     <!-- Código postal -->
     <TextView
         android:id="@+id/tvCodPostal"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Código postal"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +100,8 @@
     <EditText
         android:id="@+id/etCodPostal"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
+        android:autofillHints="postalCode"
         android:hint="Introduce tu código postal..."
         android:inputType="number"
         android:textSize="14sp"
@@ -109,7 +113,7 @@
     <TextView
         android:id="@+id/tvMovil"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Móvil"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +122,8 @@
     <EditText
         android:id="@+id/etMovil"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
+        android:autofillHints="phone"
         android:hint="Introduce tu móvil..."
         android:inputType="phone"
         android:textSize="14sp"
@@ -130,7 +135,7 @@
     <TextView
         android:id="@+id/tvCorreoElec"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Correo electrónico"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +144,8 @@
     <EditText
         android:id="@+id/etCorreoElec"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
+        android:autofillHints="emailAddress"
         android:hint="Introduce tu correo electrónico..."
         android:inputType="textEmailAddress"
         android:textSize="14sp"
@@ -151,7 +157,7 @@
     <TextView
         android:id="@+id/tvContrasena"
         android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:gravity="fill_vertical"
         android:text="Contraseña"
         app:layout_constraintStart_toStartOf="parent"
@@ -160,13 +166,36 @@
     <EditText
         android:id="@+id/etContrasena"
         android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:hint="Introduce tu contraseña..."
+        android:layout_height="48dp"
+        android:autofillHints="password"
+        android:hint="Introduce una contraseña..."
         android:inputType="textPassword"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvContrasena"
         app:layout_constraintTop_toBottomOf="@id/tvCorreoElec" />
+
+    <!-- Repetir contraseña -->
+    <TextView
+        android:id="@+id/tvContrasenaRepetir"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:gravity="fill_vertical"
+        android:text="Repite contraseña"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvContrasena" />
+
+    <EditText
+        android:id="@+id/etContrasenaRepetir"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:autofillHints="password"
+        android:hint="Repite la contraseña..."
+        android:inputType="textPassword"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvContrasena"
+        app:layout_constraintTop_toBottomOf="@id/etContrasena" />
 
     <CheckBox
         android:id="@+id/cbCondiciones"
@@ -176,7 +205,7 @@
         android:text="Acepto los términos y condiciones del servicio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etContrasena" />
+        app:layout_constraintTop_toBottomOf="@id/etContrasenaRepetir" />
 
     <Button
         android:id="@+id/btnRegistro"

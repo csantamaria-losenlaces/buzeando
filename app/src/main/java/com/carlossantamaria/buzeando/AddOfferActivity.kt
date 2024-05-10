@@ -23,6 +23,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -47,7 +49,9 @@ class AddOfferActivity : AppCompatActivity() {
 
     private lateinit var rgTipo: RadioGroup
     private lateinit var etTituloOferta: EditText
+    private lateinit var tvTituloDemasiadoLargo: TextView
     private lateinit var etDescripcion: EditText
+    private lateinit var tvDescDemasiadoLarga: TextView
     private lateinit var etPrecio: EditText
     private lateinit var tvCodPostalValor: TextView
     private lateinit var btnSubirImagen: Button
@@ -63,7 +67,7 @@ class AddOfferActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_add_offer)
+        setContentView(R.layout.activity_offer_add)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -125,7 +129,9 @@ class AddOfferActivity : AppCompatActivity() {
 
     private fun initComponents() {
         rgTipo = findViewById(R.id.rgTipo)
+        tvTituloDemasiadoLargo = findViewById(R.id.tvTituloDemasiadoLargo)
         etTituloOferta = findViewById(R.id.etTituloOferta)
+        tvDescDemasiadoLarga = findViewById(R.id.tvDescDemasiadoLarga)
         etDescripcion = findViewById(R.id.etDescripcion)
         etPrecio = findViewById(R.id.etPrecio)
         tvCodPostalValor = findViewById(R.id.tvCodPostalValor)
@@ -137,6 +143,8 @@ class AddOfferActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+        etTituloOferta.doAfterTextChanged { tvTituloDemasiadoLargo.isVisible = etTituloOferta.length() == 100 }
+        etDescripcion.doAfterTextChanged { tvDescDemasiadoLarga.isVisible = etDescripcion.length() == 750 }
         btnSubirImagen.setOnClickListener {
             Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show()
             /*val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
