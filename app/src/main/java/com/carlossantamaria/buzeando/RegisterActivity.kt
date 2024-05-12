@@ -104,15 +104,8 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
 
-        val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                Toast.makeText(this, "Se ha pulsado el campo de dirección", Toast.LENGTH_SHORT)
-                    .show()
-                startAutocomplete.launch(autoCompleteIntent)
-            } else {
-                Toast.makeText(this, "Se ha salido del campo de dirección", Toast.LENGTH_SHORT)
-                    .show()
-            }
+        val focusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) startAutocomplete.launch(autoCompleteIntent)
         }
 
         etDireccion.onFocusChangeListener = focusChangeListener
@@ -151,7 +144,6 @@ class RegisterActivity : AppCompatActivity() {
                 } else {
                     val url = "http://77.90.13.129/android/save.php"
                     val hashPwd = Bcrypt.hash(etContrasena.text.toString(), 12).decodeToString()
-
                     val parametros = hashMapOf(
                         "nombre" to etNombre.text.toString(),
                         "apellidos" to etApellidos.text.toString(),
@@ -179,10 +171,8 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun camposCumplimentados(): Boolean {
-        return !(etNombre.text.isNullOrEmpty() || etApellidos.text.isNullOrEmpty() || etDireccion.text.isNullOrEmpty() || etCodPostal.text.isNullOrEmpty()
-                || etMovil.text.isNullOrEmpty() || etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty()) || etContrasenaRepetir.text.isNullOrEmpty()
-    }
+    private fun camposCumplimentados(): Boolean = (!(etNombre.text.isNullOrEmpty() || etApellidos.text.isNullOrEmpty() || etDireccion.text.isNullOrEmpty() || etCodPostal.text.isNullOrEmpty()
+            || etMovil.text.isNullOrEmpty() || etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty()) || etContrasenaRepetir.text.isNullOrEmpty())
 
     private fun enviarDatosRegistro(
         url: String,
@@ -204,8 +194,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun View.ocultarTeclado() {
-        val inputManager =
-            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
@@ -253,8 +242,6 @@ class RegisterActivity : AppCompatActivity() {
         requestQueue.add(jsonObjectRequest)
     }
 
-    private fun claveCoincide(): Boolean {
-        return (etContrasena.text.toString() == etContrasenaRepetir.text.toString())
-    }
+    private fun claveCoincide(): Boolean = (etContrasena.text.toString() == etContrasenaRepetir.text.toString())
 
 }
