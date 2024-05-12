@@ -2,7 +2,6 @@ package com.carlossantamaria.buzeando
 
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -25,7 +24,6 @@ class OfferDetailsActivity : AppCompatActivity() {
     private lateinit var btnChat: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_offer_details)
@@ -34,12 +32,9 @@ class OfferDetailsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         initComponents()
         initUI()
         cargarDatosOferta()
-
-        Log.i("OfferDetailsActivity", "Se ha seleccionado esta oferta: ${offer.titulo} (ID ${offer.idOferta})")
 
     }
 
@@ -74,5 +69,4 @@ class OfferDetailsActivity : AppCompatActivity() {
         tvDescOferta.text = offer.descripcion
         tvPrecio.text = String.format(Locale.GERMAN, "%.2f €", offer.coste)
     }
-
 }

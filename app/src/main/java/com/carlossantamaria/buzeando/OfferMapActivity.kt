@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -37,7 +36,6 @@ class OfferMapActivity : AppCompatActivity(),
 
     private lateinit var btnListaOfertas: Button
     private lateinit var btnPerfil: Button
-
     private var permissionDenied = false
     private lateinit var map: GoogleMap
     private val listaCoordenadas = mutableListOf<Waypoint>()
@@ -85,8 +83,6 @@ class OfferMapActivity : AppCompatActivity(),
             if (offerList.isNotEmpty()) {
                 offerList.forEach {
                     listaCoordenadas.add(Waypoint(it, it.titulo, it.descripcion, LatLng(it.coordsLat, it.coordsLong)))
-                    Log.i("Lista coordenadas", "Latitud: ${it.coordsLat}, Longitud: ${it.coordsLong}"
-                    )
                 }
                 // Add markers after listaCoordenadas is populated
                 listaCoordenadas.forEach {
@@ -94,9 +90,7 @@ class OfferMapActivity : AppCompatActivity(),
                         MarkerOptions()
                             .position(it.coordenadas)
                             .title(it.titulo)
-                            .snippet("${it.descripcion.substring(0,
-                                it.descripcion.length.coerceAtMost(25)
-                            )}...")
+                            .snippet("${it.descripcion.substring(0, it.descripcion.length.coerceAtMost(25))}...")
                     )
                     marker?.tag = it.oferta
                 }
@@ -227,5 +221,4 @@ class OfferMapActivity : AppCompatActivity(),
         intent.putExtra("offer_object", offer)
         startActivity(intent)
     }
-
 }

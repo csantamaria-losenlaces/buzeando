@@ -26,7 +26,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnAcceder: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
@@ -73,9 +72,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun camposCumplimentados(): Boolean {
-        return !(etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty())
-    }
+    private fun camposCumplimentados() = (!(etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty()))
 
     private fun populateUserAttributes(hashContrasena: String) {
         val url = "http://77.90.13.129/android/fetch.php?mail=${etCorreoElec.text}&hash_pwd=${hashContrasena}"
@@ -119,9 +116,7 @@ class LoginActivity : AppCompatActivity() {
                 val hashPassword = response.getString("hash_pwd")
                 callback(hashPassword)
             },
-            {
-                Toast.makeText(this, "El usuario no existe", Toast.LENGTH_SHORT).show()
-            }
+            { Toast.makeText(this, "El usuario no existe", Toast.LENGTH_SHORT).show() }
         )
         requestQueue.add(jsonObjectRequest)
     }

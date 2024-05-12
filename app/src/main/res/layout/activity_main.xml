@@ -51,40 +51,6 @@
             android:textAlignment="center"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btnNuevaOferta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="[DEV] Nueva oferta"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnMapa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="[DEV] Mapa" />
-
-        <Button
-            android:id="@+id/btnListaOfertas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="[DEV] Ofertas (lista)"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnDetallesOferta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="[DEV] Detalles oferta" />
-
     </LinearLayout>
 
 </LinearLayout>

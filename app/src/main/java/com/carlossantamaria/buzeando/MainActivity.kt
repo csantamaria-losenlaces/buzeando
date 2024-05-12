@@ -18,14 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnRegistro: Button
     private lateinit var tvCerrarSesion: TextView
 
-    // Temporal
-    private lateinit var btnNuevaOferta: Button
-    private lateinit var btnMapaOfertas: Button
-    private lateinit var btnListaOfertas: Button
-    private lateinit var btnDetallesOferta: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -39,28 +32,13 @@ class MainActivity : AppCompatActivity() {
         btnRegistro = findViewById(R.id.btnRegistrarCuenta)
         tvCerrarSesion = findViewById(R.id.tvCerrarSesion)
 
-        // Temporal
-        btnNuevaOferta = findViewById(R.id.btnNuevaOferta)
-        btnMapaOfertas = findViewById(R.id.btnMapa)
-        btnListaOfertas = findViewById(R.id.btnListaOfertas)
-        btnDetallesOferta = findViewById(R.id.btnDetallesOferta)
-
-
         btnIniciarSesion.setOnClickListener { abrirIdentificar() }
         btnRegistro.setOnClickListener { abrirRegistro() }
         tvCerrarSesion.setOnClickListener { cerrarSesion() }
-
-        // Temporal
-        btnNuevaOferta.setOnClickListener { abrirNuevaOferta() }
-        btnMapaOfertas.setOnClickListener { abrirMapa() }
-        btnListaOfertas.setOnClickListener { abrirListaOfertas() }
-        btnDetallesOferta.setOnClickListener { abrirDetallesOferta() }
-
     }
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(this, "Has vuelto a la actividad principal", Toast.LENGTH_SHORT).show()
         if (User.id_usr.isNotBlank()) {
             btnIniciarSesion.isEnabled = false
             btnRegistro.isEnabled = false
@@ -88,24 +66,9 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Has cerrado sesión", Toast.LENGTH_SHORT).show()
     }
 
-    // Temporal
-    private fun abrirNuevaOferta() {
-        val intent = Intent(this, AddOfferActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun abrirMapa() {
-        val intent = Intent(this, OfferMapActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun abrirListaOfertas() {
         val intent = Intent(this, OfferListActivity::class.java)
         startActivity(intent)
     }
 
-    private fun abrirDetallesOferta() {
-        val intent = Intent(this, OfferDetailsActivity::class.java)
-        startActivity(intent)
-    }
 }

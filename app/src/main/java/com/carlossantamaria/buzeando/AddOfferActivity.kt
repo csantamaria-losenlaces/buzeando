@@ -4,9 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory.decodeFile
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -28,20 +25,12 @@ import androidx.core.widget.doAfterTextChanged
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.carlossantamaria.buzeando.imageupload.UploadViewModel
 import com.carlossantamaria.buzeando.objects.User
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -58,7 +47,6 @@ class AddOfferActivity : AppCompatActivity() {
     private lateinit var btnElegirUbicacion: Button
     private lateinit var tvDireccion: TextView
     private lateinit var btnCrearOferta: Button
-    private lateinit var uploadViewModel: UploadViewModel
     private lateinit var startAutocomplete: ActivityResultLauncher<Intent>
     private lateinit var coordsLatLng: LatLng
 
@@ -73,11 +61,9 @@ class AddOfferActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         initComponents()
         initUI()
         inicializarPlacesAPI()
-
         startAutocomplete =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -103,28 +89,6 @@ class AddOfferActivity : AppCompatActivity() {
                     Log.i("Places API", "User canceled autocomplete")
                 }
             }
-
-        /*val galleryLauncher =
-            registerForActivityResult(
-                contract = ActivityResultContracts.StartActivityForResult()
-            ) {
-                if (it.resultCode == Activity.RESULT_OK) {
-                    val data: Intent? = it.data
-                    if (data != null) {
-                        val imageUri = Uri.parse(data.data.toString())
-                        if (imageUri.toString().isNotEmpty()) {
-                            Log.d("myImageUri", "$imageUri ")
-                            uploadViewModel.uploadImage(
-                                createMultipartBody(
-                                    uri = imageUri,
-                                    multipartName = "image"
-                                )
-                            )
-                        }
-                    }
-                }
-            }*/
-
     }
 
     private fun initComponents() {
@@ -139,17 +103,12 @@ class AddOfferActivity : AppCompatActivity() {
         btnElegirUbicacion = findViewById(R.id.btnElegirUbicacion)
         tvDireccion = findViewById(R.id.tvDireccion)
         btnCrearOferta = findViewById(R.id.btnCrearOferta)
-        // uploadViewModel = ViewModelProvider(this)[UploadViewModel::class.java]
     }
 
     private fun initUI() {
         etTituloOferta.doAfterTextChanged { tvTituloDemasiadoLargo.isVisible = etTituloOferta.length() == 100 }
         etDescripcion.doAfterTextChanged { tvDescDemasiadoLarga.isVisible = etDescripcion.length() == 750 }
-        btnSubirImagen.setOnClickListener {
-            Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show()
-            /*val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            galleryLauncher.launch(galleryIntent)*/
-        }
+        btnSubirImagen.setOnClickListener { Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show() }
         btnElegirUbicacion.setOnClickListener {
             it.ocultarTeclado()
             lanzarPlacesAPI()
@@ -193,9 +152,7 @@ class AddOfferActivity : AppCompatActivity() {
         startAutocomplete.launch(autoCompleteIntent)
     }
 
-    private fun camposCumplimentados(): Boolean {
-        return !(rgTipo.checkedRadioButtonId == -1 || etTituloOferta.text.isNullOrEmpty() || etDescripcion.text.isNullOrEmpty() || etPrecio.text.isNullOrEmpty() || tvCodPostalValor.text == "(Sin definir)")
-    }
+    private fun camposCumplimentados() = (!(rgTipo.checkedRadioButtonId == -1 || etTituloOferta.text.isNullOrEmpty() || etDescripcion.text.isNullOrEmpty() || etPrecio.text.isNullOrEmpty() || tvCodPostalValor.text == "(Sin definir)"))
 
     private fun View.ocultarTeclado() {
         val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -211,8 +168,6 @@ class AddOfferActivity : AppCompatActivity() {
             R.id.rbServicio -> tipoOferta = "Servicio"
         }
 
-        Log.i("coordsLatLng", "${coordsLatLng.latitude}, ${coordsLatLng.longitude}")
-
         val parametros = hashMapOf(
             "id_usr" to User.id_usr,
             "tipo" to tipoOferta,
@@ -225,8 +180,6 @@ class AddOfferActivity : AppCompatActivity() {
             "coords_lat" to coordsLatLng.latitude.toString(),
             "coords_long" to coordsLatLng.longitude.toString()
         )
-
-        parametros.forEach { (t, u) -> Log.i("Array de parámetros:", "$t = $u") }
 
         enviarDatosNuevaOferta(url, parametros, onResponseListener = {
             val builder = AlertDialog.Builder(this)
@@ -269,16 +222,4 @@ class AddOfferActivity : AppCompatActivity() {
         finish()
         startActivity(intent)
     }
-
-    // Recibe URI de la imagen y devuelve MultiBody.Part para usar en petición HTTP
-    private fun createMultipartBody(uri: Uri, multipartName: String): MultipartBody.Part {
-        val documentImage = decodeFile(uri.path!!)
-        val file = File(uri.path!!)
-        val os: OutputStream = BufferedOutputStream(FileOutputStream(file))
-        documentImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
-        os.close()
-        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData(name = multipartName, file.name, requestBody)
-    }
-
 }

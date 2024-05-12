@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -37,7 +36,6 @@ class ProfileActivity : AppCompatActivity() {
     private val nuevosDatos = hashMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
@@ -46,11 +44,9 @@ class ProfileActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         initComponents()
         recuperarDatosUsuario()
         initUI()
-
     }
 
     private fun initComponents() {
@@ -95,9 +91,7 @@ class ProfileActivity : AppCompatActivity() {
         }
         btnGuardar.setOnClickListener {
             it.ocultarTeclado()
-            Log.i("nuevosDatos", "Estoy antes del if")
             if (etContrasena.text.isNotEmpty()) {
-                Log.i("nuevosDatos", "Estoy dentro del if")
                 if (!claveCoincide()) {
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage("Los campos de contraseña no coinciden")
@@ -107,7 +101,6 @@ class ProfileActivity : AppCompatActivity() {
                     if (hayCambios[3]) nuevosDatos["hash_pwd"] = Bcrypt.hash(etContrasena.text.toString(), 12).decodeToString() else nuevosDatos.remove("hash_pwd")
                 }
             }
-            Log.i("nuevosDatos", "Estoy llegando fuera del if")
             nuevosDatos["id_usr"] = User.id_usr
             actualizarDatosUsuario()
             this.recreate()
@@ -145,10 +138,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun actualizarDatosUsuario() {
-        for (set: Map.Entry<String, String> in nuevosDatos.entries) {
-            Log.i("nuevosDatos", "Clave: ${set.key}. Valor: ${set.value}")
-        }
-
         val url = "http://77.90.13.129/android/updateprofile.php"
 
         enviarDatosUsuario(url, nuevosDatos, onResponseListener = {

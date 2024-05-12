@@ -2,7 +2,6 @@ package com.carlossantamaria.buzeando
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -24,7 +23,6 @@ class OfferListActivity : AppCompatActivity() {
 
     private lateinit var adapterListaOfertas: OfferListAdapter
     private lateinit var rvListaOfertas: RecyclerView
-
     private lateinit var sbDireccion: SearchBar
     private lateinit var btnFiltrar: Button
     private lateinit var btnCrearOferta: Button
@@ -40,20 +38,15 @@ class OfferListActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         initComponents()
         initUI()
-
         actualizarRecyclerView()
     }
 
     private fun initComponents() {
-        adapterListaOfertas = OfferListAdapter(emptyList()) {
-            Log.i("RecyclerView", "ID de oferta pulsada: ${it.idOferta}")
-            abrirDetallesOferta(it)
-        }
-        rvListaOfertas = findViewById(R.id.rvListaOfertas)
+        adapterListaOfertas = OfferListAdapter(emptyList()) { abrirDetallesOferta(it) }
 
+        rvListaOfertas = findViewById(R.id.rvListaOfertas)
         sbDireccion = findViewById(R.id.sbDireccion)
         btnFiltrar = findViewById(R.id.btnFiltrar)
         btnCrearOferta = findViewById(R.id.btnCrearOferta)
@@ -65,16 +58,14 @@ class OfferListActivity : AppCompatActivity() {
         rvListaOfertas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvListaOfertas.adapter = adapterListaOfertas
 
-        sbDireccion.setOnClickListener {  }
-        btnFiltrar.setOnClickListener {  }
         btnCrearOferta.setOnClickListener { abrirCrearOferta() }
         btnMapa.setOnClickListener { abrirMapa() }
         btnPerfil.setOnClickListener { abrirPerfil() }
-        rvListaOfertas
     }
 
     private fun abrirCrearOferta() {
         val intent = Intent(this, AddOfferActivity::class.java)
+        finish()
         startActivity(intent)
     }
 
@@ -100,10 +91,8 @@ class OfferListActivity : AppCompatActivity() {
             url,
             null,
             { response ->
-                Log.i("Volley", response.toString())
                 (0 until response.length()).forEach {
                     val offer = response.getJSONObject(it)
-                    Log.i("Volley", "Título de la oferta: ${offer.get("titulo")}")
                     offerList.add(Offer(
                         offer.get("id_oferta").toString().toInt(),
                         offer.get("id_usr").toString().toInt(),
@@ -122,9 +111,8 @@ class OfferListActivity : AppCompatActivity() {
                 }
                 callback(offerList)
             },
-            { error ->
+            { _ ->
                 Toast.makeText(this, "No se han podido cargar las ofertas", Toast.LENGTH_SHORT).show()
-                Log.i("Volley", error.message.toString())
             }
         )
         requestQueue.add(jsonArrayRequest)
