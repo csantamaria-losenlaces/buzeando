@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.library") version "8.3.2" apply false
+    id("com.android.library") version "8.4.0" apply false
     id("com.google.dagger.hilt.android") version "2.51.1"
 
     alias(libs.plugins.androidApplication)
@@ -7,6 +7,8 @@ plugins {
 
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     kotlin("kapt")
+
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -95,6 +97,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
 }
 
 kapt {
