@@ -7,12 +7,12 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 
-class CreateOrLoadConversation(private val context: Context) {
+class CreateOrLoadConversation(context: Context) {
 
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
     fun createOrLoadConversation(user1Id: Int, user2Id: Int, callback: (Int) -> Unit) {
-        val url = "https://tu-dominio.com/create_conversation.php"
+        val url = "http://77.90.13.129/android/createconversation.php"
         val postRequest = object : StringRequest(
             Method.POST, url,
             Response.Listener { response ->

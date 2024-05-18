@@ -1,30 +1,40 @@
 package com.carlossantamaria.buzeando.chat
 
 import android.content.Context
+import android.util.Log
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.carlossantamaria.buzeando.objects.Message
+import com.carlossantamaria.buzeando.objects.ChatModel
+import com.carlossantamaria.buzeando.objects.User
 import org.json.JSONArray
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-class LoadMessages(private val context: Context) {
+class LoadMessages(context: Context) {
 
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
-    fun loadMessages(conversationId: Int, callback: (List<Message>) -> Unit) {
-        val url = "https://tu-dominio.com/get_messages.php?conversation_id=$conversationId"
+    fun loadMessages(conversationId: Int, callback: (MutableList<ChatModel>) -> Unit) {
+        val url = "http://77.90.13.129/android/getmessages.php?conversation_id=$conversationId"
         val getRequest = StringRequest(Request.Method.GET, url,
             { response ->
+                Log.i("LoadMessages", "He entrado a response")
                 val jsonResponse = JSONArray(response)
-                val messages = mutableListOf<Message>()
+                val messages = mutableListOf<ChatModel>()
                 for (i in 0 until jsonResponse.length()) {
                     val messageObj = jsonResponse.getJSONObject(i)
-                    val id = messageObj.getInt("id")
-                    val senderId = messageObj.getInt("sender_id")
-                    val message = messageObj.getString("message")
-                    val sentAt = messageObj.getString("sent_at")
-                    messages.add(Message(id, conversationId, senderId, message, sentAt))
+                    val message = messageObj.getString("texto")
+                    val time = messageObj.getString("fecha")
+
+                    val dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    val dateTimeFormateado = dateTime.format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm"))
+
+                    val senderId = messageObj.getString("id_usr")
+                    val type = if (User.id_usr == senderId) "SEND" else "RECEIVE"
+                    messages.add(ChatModel(type, message, dateTimeFormateado, Integer.parseInt(senderId)))
+                    Log.i("LoadMessages", "Se ha agregado un mensaje")
                 }
                 callback(messages)
             },

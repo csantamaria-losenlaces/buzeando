@@ -89,6 +89,7 @@
             android:layout_width="128dp"
             android:layout_height="match_parent"
             android:contentDescription="Botón de chat"
+            android:enabled="false"
             android:text="Chat"
             app:icon="@drawable/outline_chat_black_48dp"
             app:iconGravity="textStart" />

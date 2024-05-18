@@ -1,7 +1,9 @@
 package com.carlossantamaria.buzeando
 
+import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -36,6 +38,12 @@ class OfferDetailsActivity : AppCompatActivity() {
         initUI()
         cargarDatosOferta()
 
+        // DESCOMENTAR CUANDO HAYA LISTA DE CHATS
+        /*if (offer.idUsr != Integer.parseInt(User.id_usr)) {
+            btnChat.isEnabled = true
+        }*/
+        btnChat.isEnabled = true // QUITAR ESTO CUANDO HAYA LISTA DE CHATS
+
     }
 
     private fun initComponents() {
@@ -48,8 +56,10 @@ class OfferDetailsActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        btnPerfil.setOnClickListener { Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show()}
-        btnChat.setOnClickListener { Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show()}
+        btnPerfil.setOnClickListener { Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show() }
+        btnChat.setOnClickListener {
+            abrirChat(offer)
+        }
     }
 
     private fun cargarDatosOferta() {
@@ -68,5 +78,12 @@ class OfferDetailsActivity : AppCompatActivity() {
         }
         tvDescOferta.text = offer.descripcion
         tvPrecio.text = String.format(Locale.GERMAN, "%.2f €", offer.coste)
+    }
+
+    private fun abrirChat(offer: Offer) {
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra("offer_object", offer)
+        startActivity(intent)
+        Log.i("Oferta", offer.toString())
     }
 }
