@@ -21,11 +21,14 @@ import com.carlossantamaria.buzeando.chat.ChatAdapterViewHolder
 import com.carlossantamaria.buzeando.chat.ChatWebSocket
 import com.carlossantamaria.buzeando.chat.CreateOrLoadConversation
 import com.carlossantamaria.buzeando.chat.LoadMessages
+import com.carlossantamaria.buzeando.chat.SendMessage
 import com.carlossantamaria.buzeando.databinding.ActivityChatBinding
 import com.carlossantamaria.buzeando.objects.ChatModel
 import com.carlossantamaria.buzeando.objects.Offer
 import com.carlossantamaria.buzeando.objects.User
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -171,8 +174,12 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
     private fun initUI() {
         btnEnviar.setOnClickListener {
             val message = etMensaje.text.toString()
+            val currTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString()
             chatWebSocket.send(message)
             addMessageToChat(message) // Añadir mensaje a la UI localmente
+            SendMessage(this).sendMessage(idConversacion, message, User.id_usr, currTime) { callback ->
+                Log.i("SendMessage.sendMessage()", callback.toString())
+            }
         }
     }
 

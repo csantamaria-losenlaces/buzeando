@@ -7,12 +7,12 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 
-class SendMessage(private val context: Context) {
+class SendMessage(context: Context) {
 
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
-    fun sendMessage(conversationId: Int, senderId: Int, message: String, callback: (Boolean) -> Unit) {
-        val url = "https://tu-dominio.com/send_message.php"
+    fun sendMessage(conversationId: Int, message: String, senderId: String, time: String, callback: (Boolean) -> Unit) {
+        val url = "http://77.90.13.129/android/sendmessage.php"
         val postRequest = object : StringRequest(
             Method.POST, url,
             Response.Listener { response ->
@@ -26,8 +26,9 @@ class SendMessage(private val context: Context) {
             override fun getParams(): MutableMap<String, String> {
                 return hashMapOf(
                     "conversation_id" to conversationId.toString(),
-                    "sender_id" to senderId.toString(),
-                    "message" to message
+                    "message" to message,
+                    "sender_id" to senderId,
+                    "time" to time
                 )
             }
         }
