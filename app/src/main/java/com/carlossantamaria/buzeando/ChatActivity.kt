@@ -50,19 +50,6 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         ActivityChatBinding.inflate(layoutInflater)
     }
 
-    /*private val chatAdapterViewHolder: ChatAdapterViewHolder by lazy {
-        ChatAdapterViewHolder()
-    }*/
-
-    /*private val listDemo = listOf(
-        ChatModel("RECEIVE", "How are you today?", "18/05/2024 12:04"),
-        ChatModel("SEND", "Tonight, have a party!", "18/05/2024 12:04"),
-        ChatModel("RECEIVE", "Sound good, Where?", "18/05/2024 12:05"),
-        ChatModel("RECEIVE", "I am busy to code.", "18/05/2024 12:05"),
-        ChatModel("SEND", "Sorry, James! ", "18/05/2024 12:05"),
-        ChatModel("RECEIVE", "What time does it start?", "18/05/2024 12:06"),
-    )*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -95,23 +82,11 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
 
         CreateOrLoadConversation(this).createOrLoadConversation(Integer.parseInt(User.id_usr), offer.idUsr) { idRecibido ->
             idConversacion = idRecibido
-            Log.i("Recibido callback de CreateOrLoadConversation.createOrLoadConversation()", "Valor de idConversacion: $idConversacion")
             LoadMessages(this).loadMessages(idConversacion) { mensajesRecibidos ->
                 listaMensajes = mensajesRecibidos
-                Log.i("Recibido callback de LoadMessages.loadMessages()", "Tamaño de listaMensajes: ${listaMensajes.size}")
                 chatAdapter.setData(listaMensajes)
             }
         }
-
-        /*LoadMessages(this).loadMessages(idConversacion) {
-            listaMensajes = it
-            Log.i("Recibido callback de LoadMessages.loadMessages()", "Tamaño de listaMensajes: ${listaMensajes.size}")
-        }*/
-
-
-
-        //chatAdapter.setData(listaMensajes)
-        //binding.rvConversacion.smoothScrollToPosition(listaMensajes.size - 1)
     }
 
     override fun onActivityReenter(resultCode: Int, data: Intent?) {
@@ -200,9 +175,8 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
             val apellidos = response.getString("apellidos")
             callback(listOf(nombre, apellidos))
         }, {
-            Toast.makeText(
-                this, "Los datos son incorrectos o la cuenta no existe", Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Los datos son incorrectos o la cuenta no existe", Toast.LENGTH_SHORT)
+                .show()
         })
         requestQueue.add(jsonObjectRequest)
     }

@@ -35,7 +35,7 @@ class OfferMapActivity : AppCompatActivity(),
     ActivityCompat.OnRequestPermissionsResultCallback {
 
     private lateinit var btnListaOfertas: Button
-    private lateinit var btnPerfil: Button
+    private lateinit var btnCuenta: Button
     private var permissionDenied = false
     private lateinit var map: GoogleMap
     private val listaCoordenadas = mutableListOf<Waypoint>()
@@ -51,10 +51,10 @@ class OfferMapActivity : AppCompatActivity(),
         }
 
         btnListaOfertas = findViewById(R.id.btnListaOfertas)
-        btnPerfil = findViewById(R.id.btnPerfil)
+        btnCuenta = findViewById(R.id.btnCuenta)
 
         btnListaOfertas.setOnClickListener { abrirListaOfertas() }
-        btnPerfil.setOnClickListener { abrirPerfil() }
+        btnCuenta.setOnClickListener { abrirCuenta() }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -66,8 +66,8 @@ class OfferMapActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-    private fun abrirPerfil() {
-        val intent = Intent(this, ProfileActivity::class.java)
+    private fun abrirCuenta() {
+        val intent = Intent(this, AccountActivity::class.java)
         finish()
         startActivity(intent)
     }

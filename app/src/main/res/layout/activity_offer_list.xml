@@ -152,7 +152,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btnPerfil"
+                android:id="@+id/btnCuenta"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginBottom="8dp"
@@ -168,7 +168,7 @@
                 app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
 
             <TextView
-                android:id="@+id/tvPerfil"
+                android:id="@+id/tvCuenta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mi cuenta"

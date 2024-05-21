@@ -27,7 +27,7 @@ class OfferListActivity : AppCompatActivity() {
     private lateinit var btnFiltrar: Button
     private lateinit var btnCrearOferta: Button
     private lateinit var btnMapa: Button
-    private lateinit var btnPerfil: Button
+    private lateinit var btnCuenta: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +51,7 @@ class OfferListActivity : AppCompatActivity() {
         btnFiltrar = findViewById(R.id.btnFiltrar)
         btnCrearOferta = findViewById(R.id.btnCrearOferta)
         btnMapa = findViewById(R.id.btnMapa)
-        btnPerfil = findViewById(R.id.btnPerfil)
+        btnCuenta = findViewById(R.id.btnCuenta)
     }
 
     private fun initUI() {
@@ -60,7 +60,7 @@ class OfferListActivity : AppCompatActivity() {
 
         btnCrearOferta.setOnClickListener { abrirCrearOferta() }
         btnMapa.setOnClickListener { abrirMapa() }
-        btnPerfil.setOnClickListener { abrirPerfil() }
+        btnCuenta.setOnClickListener { abrirCuenta() }
     }
 
     private fun abrirCrearOferta() {
@@ -75,8 +75,8 @@ class OfferListActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun abrirPerfil() {
-        val intent = Intent(this, ProfileActivity::class.java)
+    private fun abrirCuenta() {
+        val intent = Intent(this, AccountActivity::class.java)
         finish()
         startActivity(intent)
     }

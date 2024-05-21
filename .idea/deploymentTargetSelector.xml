@@ -3,11 +3,11 @@
   <component name="deploymentTargetSelector">
     <selectionStates>
       <SelectionState runConfigName="app">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-05-19T09:53:42.496538100Z">
+        <option name="selectionMode" value="DIALOG" />
+        <DropdownSelection timestamp="2024-05-21T04:52:42.721056Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Carlos\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Carlos\.android\avd\Pixel_3a_2_.avd" />
             </handle>
           </Target>
         </DropdownSelection>
@@ -15,12 +15,12 @@
           <targets>
             <Target type="DEFAULT_BOOT">
               <handle>
-                <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Carlos\.android\avd\Pixel_3a_2_.avd" />
+                <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Carlos\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
               </handle>
             </Target>
             <Target type="DEFAULT_BOOT">
               <handle>
-                <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Carlos\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
+                <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Carlos\.android\avd\Pixel_3a_2_.avd" />
               </handle>
             </Target>
           </targets>

@@ -51,7 +51,7 @@ class OfferDetailsActivity : AppCompatActivity() {
         tvFechaCreacion = findViewById(R.id.tvFechaCreacion)
         tvDescOferta = findViewById(R.id.tvDescOferta)
         tvPrecio = findViewById(R.id.tvPrecio)
-        btnPerfil = findViewById(R.id.btnPerfil)
+        btnPerfil = findViewById(R.id.btnCuenta)
         btnChat = findViewById(R.id.btnChat)
     }
 

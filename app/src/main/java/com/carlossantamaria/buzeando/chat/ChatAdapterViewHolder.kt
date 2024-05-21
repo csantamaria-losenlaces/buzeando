@@ -1,7 +1,6 @@
 package com.carlossantamaria.buzeando.chat
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -53,10 +52,8 @@ class ChatAdapterViewHolder : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun addMessage(chatModel: ChatModel) {
-        Log.i("Tamaño de listOfChat", "${listOfChat.size}")
         listOfChat.add(chatModel)
         notifyItemInserted(listOfChat.size - 1)
-        Log.i("Tamaño de listOfChat", "${listOfChat.size}")
     }
 
     inner class LeftViewHolder(private val binding: MessageInItemBinding) :

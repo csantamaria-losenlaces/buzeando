@@ -19,7 +19,7 @@ import com.android.volley.toolbox.Volley
 import com.carlossantamaria.buzeando.objects.User
 import com.toxicbakery.bcrypt.Bcrypt
 
-class ProfileActivity : AppCompatActivity() {
+class AccountActivity : AppCompatActivity() {
 
     private lateinit var tvNombreValor: TextView
     private lateinit var tvApellidosValor: TextView
@@ -38,8 +38,8 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_profile)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.profile)) { v, insets ->
+        setContentView(R.layout.activity_account)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.account)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
