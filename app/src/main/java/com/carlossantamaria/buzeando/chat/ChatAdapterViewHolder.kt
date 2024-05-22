@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.carlossantamaria.buzeando.databinding.MessageInItemBinding
 import com.carlossantamaria.buzeando.databinding.MessageOutItemBinding
 import com.carlossantamaria.buzeando.objects.ChatModel
+import com.carlossantamaria.buzeando.objects.User
 
 class ChatAdapterViewHolder : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -22,7 +23,6 @@ class ChatAdapterViewHolder : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val binding = MessageInItemBinding.inflate(inflater, parent, false)
                 LeftViewHolder(binding)
             }
-
             else -> {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = MessageOutItemBinding.inflate(inflater, parent, false)
@@ -52,6 +52,9 @@ class ChatAdapterViewHolder : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun addMessage(chatModel: ChatModel) {
+        if (Integer.parseInt(User.id_usr) != chatModel.senderId) {
+            chatModel.type = "RECEIVE"
+        }
         listOfChat.add(chatModel)
         notifyItemInserted(listOfChat.size - 1)
     }

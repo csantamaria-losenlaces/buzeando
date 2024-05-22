@@ -1,6 +1,7 @@
 package com.carlossantamaria.buzeando.chat
 
 import android.content.Context
+import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -17,6 +18,7 @@ class SendMessage(context: Context) {
             Method.POST, url,
             Response.Listener { response ->
                 val jsonResponse = JSONObject(response)
+                Log.i("Respuesta json", jsonResponse.toString())
                 val success = jsonResponse.getBoolean("success")
                 callback(success)
             },

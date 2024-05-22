@@ -3,6 +3,7 @@ package com.carlossantamaria.buzeando
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -109,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun obtenerHash(callback: (String) -> Unit) {
-        val url = "http://77.90.13.129/android/fetch.php?mail=${etCorreoElec.text.toString()}"
+        val url = "http://77.90.13.129/android/fetch.php?mail=${etCorreoElec.text}"
         val requestQueue = Volley.newRequestQueue(this)
 
         val jsonObjectRequest = JsonObjectRequest(
@@ -120,7 +121,10 @@ class LoginActivity : AppCompatActivity() {
                 val hashPassword = response.getString("hash_pwd")
                 callback(hashPassword)
             },
-            { Toast.makeText(this, "El usuario no existe", Toast.LENGTH_SHORT).show() }
+            { error ->
+                Log.i("Error en fetch", error.message.toString())
+                Toast.makeText(this, "El usuario no existe", Toast.LENGTH_SHORT).show()
+            }
         )
         requestQueue.add(jsonObjectRequest)
     }

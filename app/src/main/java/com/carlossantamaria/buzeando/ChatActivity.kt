@@ -1,9 +1,12 @@
 package com.carlossantamaria.buzeando
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -73,7 +76,7 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
             }
         }
 
-        binding.rvConversacion.apply {
+        rvConversacion.apply {
             adapter = chatAdapter
             layoutManager = LinearLayoutManager(
                 applicationContext, LinearLayoutManager.VERTICAL, false
@@ -85,6 +88,7 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
             LoadMessages(this).loadMessages(idConversacion) { mensajesRecibidos ->
                 listaMensajes = mensajesRecibidos
                 chatAdapter.setData(listaMensajes)
+                rvConversacion.scrollToPosition(chatAdapter.itemCount - 1)
             }
         }
     }
@@ -102,7 +106,8 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
 
     override fun onMessage(text: String) {
         runOnUiThread {
-            addMessageToChat(text)
+            Log.i("DEBUG CARLOS", "Estoy entrando a onMessage()")
+            addMessageToChat(text, "RECEIVE")
         }
     }
 
@@ -119,14 +124,16 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
     }
 
     private fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         return dateFormat.format(Date())
     }
 
-    private fun addMessageToChat(message: String) {
-        val chatModel = ChatModel("SEND", message, getCurrentTime(), Integer.parseInt(User.id_usr))
+    private fun addMessageToChat(message: String, userType: String) {
+        val currTime = getCurrentTime()
+        val chatModel = ChatModel(userType, message, currTime, Integer.parseInt(User.id_usr))
+
         chatAdapter.addMessage(chatModel)
-        binding.rvConversacion.scrollToPosition(chatAdapter.itemCount - 1)
+        rvConversacion.scrollToPosition(chatAdapter.itemCount - 1)
     }
 
     override fun onDestroy() {
@@ -150,11 +157,12 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         btnEnviar.setOnClickListener {
             val message = etMensaje.text.toString()
             val currTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString()
+            etMensaje.setText("")
+            it.ocultarTeclado()
+            SendMessage(this).sendMessage(idConversacion, message, User.id_usr, currTime) {}
             chatWebSocket.send(message)
-            addMessageToChat(message) // Añadir mensaje a la UI localmente
-            SendMessage(this).sendMessage(idConversacion, message, User.id_usr, currTime) { callback ->
-                Log.i("SendMessage.sendMessage()", callback.toString())
-            }
+            addMessageToChat(message, "SEND")
+            rvConversacion.scrollToPosition(chatAdapter.itemCount - 1)
         }
     }
 
@@ -179,6 +187,11 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
                 .show()
         })
         requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun View.ocultarTeclado() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
 }
