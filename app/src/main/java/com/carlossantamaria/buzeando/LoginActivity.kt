@@ -45,10 +45,6 @@ class LoginActivity : AppCompatActivity() {
             identificarUsuario()
         }
 
-        // ELIMINAR EN PRODUCCIÓN
-        etCorreoElec.setText("karlox500@hotmail.com")
-        etContrasena.setText("123456")
-
     }
 
     private fun View.ocultarTeclado() {

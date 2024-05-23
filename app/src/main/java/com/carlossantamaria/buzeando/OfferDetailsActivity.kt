@@ -11,6 +11,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.carlossantamaria.buzeando.imagegallery.ImageGalleryAdapter
+import com.carlossantamaria.buzeando.objects.Image
 import com.carlossantamaria.buzeando.objects.Offer
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -21,9 +25,17 @@ class OfferDetailsActivity : AppCompatActivity() {
     private lateinit var tvTituloOferta: TextView
     private lateinit var tvFechaCreacion: TextView
     private lateinit var tvDescOferta: TextView
+    private lateinit var adapterImageGallery: ImageGalleryAdapter
+    private lateinit var rvImagenes: RecyclerView
     private lateinit var tvPrecio: TextView
     private lateinit var btnPerfil: Button
     private lateinit var btnChat: Button
+
+    private val listaImagenes = listOf(
+        Image("https://picsum.photos/226/170"),
+        Image("https://picsum.photos/226/170"),
+        Image("https://picsum.photos/226/170")
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +59,9 @@ class OfferDetailsActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
+        adapterImageGallery = ImageGalleryAdapter(listaImagenes)
+        rvImagenes = findViewById(R.id.rvImagenes)
+
         tvTituloOferta = findViewById(R.id.tvTituloOferta)
         tvFechaCreacion = findViewById(R.id.tvFechaCreacion)
         tvDescOferta = findViewById(R.id.tvDescOferta)
@@ -60,6 +75,8 @@ class OfferDetailsActivity : AppCompatActivity() {
         btnChat.setOnClickListener {
             abrirChat(offer)
         }
+        rvImagenes.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rvImagenes.adapter = adapterImageGallery
     }
 
     private fun cargarDatosOferta() {
@@ -86,4 +103,50 @@ class OfferDetailsActivity : AppCompatActivity() {
         startActivity(intent)
         Log.i("Oferta", offer.toString())
     }
+
+    /*private fun cargarOfertas(callback: (MutableList<Offer>) -> Unit) {
+        val url = "http://77.90.13.129/android/getoffers.php"
+        val requestQueue = Volley.newRequestQueue(this)
+        val offerList = mutableListOf<Offer>()
+
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET,
+            url,
+            null,
+            { response ->
+                (0 until response.length()).forEach {
+                    val offer = response.getJSONObject(it)
+                    offerList.add(Offer(
+                        offer.get("id_oferta").toString().toInt(),
+                        offer.get("id_usr").toString().toInt(),
+                        offer.get("tipo").toString(),
+                        LocalDateTime.parse(offer.get("fecha").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                        offer.get("titulo").toString(),
+                        offer.get("descripcion").toString(),
+                        offer.get("coste").toString().toDouble(),
+                        offer.get("cod_postal").toString(),
+                        offer.get("ruta_img_1").toString(),
+                        offer.get("ruta_img_2").toString(),
+                        offer.get("ruta_img_3").toString(),
+                        offer.get("coords_lat").toString().toDouble(),
+                        offer.get("coords_long").toString().toDouble()
+                    ))
+                }
+                callback(offerList)
+            },
+            { _ ->
+                Toast.makeText(this, "No se han podido cargar las ofertas", Toast.LENGTH_SHORT).show()
+            }
+        )
+        requestQueue.add(jsonArrayRequest)
+    }*/
+
+    /*private fun actualizarRecyclerView() {
+        cargarOfertas { offerList ->
+            if (offerList.isNotEmpty()) {
+                adapterListaOfertas.update(offerList)
+            }
+        }
+    }*/
+
 }

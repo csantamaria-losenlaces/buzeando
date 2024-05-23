@@ -4,16 +4,20 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.carlossantamaria.buzeando.objects.User
@@ -32,6 +36,7 @@ class AccountActivity : AppCompatActivity() {
     private lateinit var btnGuardar: Button
     private lateinit var btnMapa: Button
     private lateinit var btnListaOfertas: Button
+    private lateinit var tvCerrarSesion: TextView
     private val hayCambios:Array<Boolean> = arrayOf(false, false, false, false, false)
     private val nuevosDatos = hashMapOf<String, String>()
 
@@ -61,6 +66,7 @@ class AccountActivity : AppCompatActivity() {
         btnGuardar = findViewById(R.id.btnGuardar)
         btnMapa = findViewById(R.id.btnMapa)
         btnListaOfertas = findViewById(R.id.btnListaOfertas)
+        tvCerrarSesion = findViewById(R.id.tvCerrarSesion)
     }
 
     private fun initUI() {
@@ -105,6 +111,7 @@ class AccountActivity : AppCompatActivity() {
             actualizarDatosUsuario()
             this.recreate()
         }
+        tvCerrarSesion.setOnClickListener { cerrarSesion() }
         btnMapa.setOnClickListener { abrirMapa() }
         btnListaOfertas.setOnClickListener { abrirListaOfertas() }
     }
@@ -137,24 +144,55 @@ class AccountActivity : AppCompatActivity() {
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
+    private fun correoElecExiste(callback: (Int) -> Unit) {
+        val url = "http://77.90.13.129/android/checkemail.php?mail=${etCorreoElec.text}"
+        val requestQueue = Volley.newRequestQueue(this)
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET,
+            url,
+            null,
+            { response ->
+                Log.i("Log personalizado", "Respuesta exitosa")
+                val numCoincidencias = response.getString("count").toInt()
+                callback(numCoincidencias)
+            },
+            {
+                Log.i("Log personalizado", "Respuesta no exitosa")
+                Toast.makeText(this, "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.", Toast.LENGTH_LONG)
+                    .show()
+                callback(-1) // Envía un valor predeterminado en caso de error
+            }
+        )
+        requestQueue.add(jsonObjectRequest)
+    }
+
     private fun actualizarDatosUsuario() {
         val url = "http://77.90.13.129/android/updateprofile.php"
-
-        enviarDatosUsuario(url, nuevosDatos, onResponseListener = {
-            val builder = AlertDialog.Builder(this)
-            builder.setMessage("Datos actualizados. Si has cambiado la contraseña, utiliza la nueva la próxima vez que inicies sesión.")
-                .setPositiveButton("Aceptar") { dialog, _ ->
-                    dialog.dismiss()
-                }
-            builder.create().show()
-        }, onErrorListener = {
-            val builder = AlertDialog.Builder(this)
-            builder.setMessage("Ha ocurrido un error al actualizar los datos. Inténtalo de nuevo más tarde.")
-                .setPositiveButton("Aceptar") { dialog, _ ->
-                    dialog.dismiss()
-                }
-            builder.create().show()
-        })
+        correoElecExiste { existe ->
+            if (existe != 0) {
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("El e-mail introducido ya existe")
+                    .setPositiveButton("Volver") { dialog, _ -> dialog.dismiss() }
+                builder.create().show()
+            } else {
+                enviarDatosUsuario(url, nuevosDatos, onResponseListener = {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage("Datos actualizados. Si has cambiado la contraseña, utiliza la nueva la próxima vez que inicies sesión.")
+                        .setPositiveButton("Aceptar") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                    builder.create().show()
+                }, onErrorListener = {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage("Ha ocurrido un error al actualizar los datos. Inténtalo de nuevo más tarde.")
+                        .setPositiveButton("Aceptar") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                    builder.create().show()
+                })
+            }
+        }
     }
 
     private fun enviarDatosUsuario(
@@ -174,6 +212,18 @@ class AccountActivity : AppCompatActivity() {
             }
         }
         requestQueue.add(stringRequest)
+    }
+
+    private fun cerrarSesion() {
+        User.cerrarSesion()
+        Toast.makeText(this, "Has cerrado sesión", Toast.LENGTH_SHORT).show()
+        abrirMainActivity()
+    }
+
+    private fun abrirMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        finish()
+        startActivity(intent)
     }
 
 }
