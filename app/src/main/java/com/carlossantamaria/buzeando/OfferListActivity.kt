@@ -3,11 +3,13 @@ package com.carlossantamaria.buzeando
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -15,15 +17,15 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.carlossantamaria.buzeando.objects.Offer
 import com.carlossantamaria.buzeando.offerlist.OfferListAdapter
-import com.google.android.material.search.SearchBar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
 
 class OfferListActivity : AppCompatActivity() {
 
     private lateinit var adapterListaOfertas: OfferListAdapter
     private lateinit var rvListaOfertas: RecyclerView
-    private lateinit var sbDireccion: SearchBar
+    private lateinit var etBusqueda: EditText
     private lateinit var btnFiltrar: Button
     private lateinit var btnCrearOferta: Button
     private lateinit var btnMapa: Button
@@ -45,9 +47,8 @@ class OfferListActivity : AppCompatActivity() {
 
     private fun initComponents() {
         adapterListaOfertas = OfferListAdapter(emptyList()) { abrirDetallesOferta(it) }
-
         rvListaOfertas = findViewById(R.id.rvListaOfertas)
-        sbDireccion = findViewById(R.id.sbDireccion)
+        etBusqueda = findViewById(R.id.etBusqueda)
         btnFiltrar = findViewById(R.id.btnFiltrar)
         btnCrearOferta = findViewById(R.id.btnCrearOferta)
         btnMapa = findViewById(R.id.btnMapa)
@@ -57,6 +58,10 @@ class OfferListActivity : AppCompatActivity() {
     private fun initUI() {
         rvListaOfertas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvListaOfertas.adapter = adapterListaOfertas
+
+        etBusqueda.doOnTextChanged { text, _, _, _ ->
+            adapterListaOfertas.filter.filter(text)
+        }
 
         btnCrearOferta.setOnClickListener { abrirCrearOferta() }
         btnMapa.setOnClickListener { abrirMapa() }
@@ -121,7 +126,7 @@ class OfferListActivity : AppCompatActivity() {
     private fun actualizarRecyclerView() {
         cargarOfertas { offerList ->
             if (offerList.isNotEmpty()) {
-                adapterListaOfertas.update(offerList)
+                adapterListaOfertas.setData(offerList)
             }
         }
     }

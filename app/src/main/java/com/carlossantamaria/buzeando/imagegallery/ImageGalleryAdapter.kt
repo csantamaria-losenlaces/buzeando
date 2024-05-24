@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.carlossantamaria.buzeando.R
 import com.carlossantamaria.buzeando.objects.Image
 
-class ImageGalleryAdapter(private val listaImagenes: List<Image>) :
+class ImageGalleryAdapter(private var listaImagenes: List<Image>) :
     RecyclerView.Adapter<ImageGalleryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageGalleryViewHolder {
@@ -18,6 +18,11 @@ class ImageGalleryAdapter(private val listaImagenes: List<Image>) :
 
     override fun onBindViewHolder(holder: ImageGalleryViewHolder, position: Int) {
         holder.drawViews(listaImagenes[position])
+    }
+
+    fun update(listaImagenesNueva: MutableList<Image>) {
+        listaImagenes = listaImagenesNueva
+        notifyItemRangeInserted(listaImagenes.size - 1, listaImagenesNueva.size)
     }
 
 }

@@ -71,30 +71,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
-            android:layout_weight="0.6"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="999.999,99€"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btnCuenta"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:contentDescription="Botón para acceder al perfil del usuario"
-            android:text="Ver perfil"
-            app:icon="@drawable/outline_account_circle_black_48dp"
-            app:iconGravity="textStart" />
-
-        <Button
             android:id="@+id/btnChat"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:contentDescription="Botón de chat"
             android:enabled="false"
-            android:text="Chat"
+            android:text="Iniciar chat"
             app:icon="@drawable/outline_chat_black_48dp"
             app:iconGravity="textStart" />
 

@@ -12,7 +12,7 @@ class ImageGalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun drawViews(item: Image) {
         Picasso.get()
-            .load(item.src)
+            .load("http://77.90.13.129/android/${item.src}")
             .resize(226, 170)
             .centerCrop()
             .into(ivImagen)

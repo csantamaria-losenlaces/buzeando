@@ -13,15 +13,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/sbDireccion"
+        <EditText
+            android:id="@+id/etBusqueda"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:hint="Introduce la búsqueda..."
+            android:importantForAutofill="no"
+            android:inputType="text"
             app:layout_constraintEnd_toStartOf="@id/btnFiltrar"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -29,6 +32,7 @@
             android:id="@+id/btnFiltrar"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="center"
             android:contentDescription="Icono de filtro"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -37,8 +41,7 @@
             app:icon="@drawable/filter_list"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:iconSize="24dp"
-            android:layout_gravity="center"/>
+            app:iconSize="24dp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -52,34 +55,34 @@
 
     <FrameLayout
         android:id="@+id/flContenedorBotonesInferiores"
-        app:layout_constraintTop_toBottomOf="@id/rvListaOfertas"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/llNavegacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"
-        android:layout_marginTop="16dp">
+        app:layout_constraintBottom_toTopOf="@id/llNavegacion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvListaOfertas">
 
         <Button
             android:id="@+id/btnCrearOferta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crear oferta"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:text="Crear oferta" />
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/llNavegacion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flContenedorBotonesInferiores"
-        android:baselineAligned="false">
+        app:layout_constraintTop_toBottomOf="@id/flContenedorBotonesInferiores">
 
         <LinearLayout
             android:layout_width="0dp"

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,14 +27,7 @@ class OfferDetailsActivity : AppCompatActivity() {
     private lateinit var adapterImageGallery: ImageGalleryAdapter
     private lateinit var rvImagenes: RecyclerView
     private lateinit var tvPrecio: TextView
-    private lateinit var btnPerfil: Button
     private lateinit var btnChat: Button
-
-    private val listaImagenes = listOf(
-        Image("https://picsum.photos/226/170"),
-        Image("https://picsum.photos/226/170"),
-        Image("https://picsum.photos/226/170")
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +41,7 @@ class OfferDetailsActivity : AppCompatActivity() {
         initComponents()
         initUI()
         cargarDatosOferta()
+        cargarGaleriaImagenes()
 
         // DESCOMENTAR CUANDO HAYA LISTA DE CHATS
         /*if (offer.idUsr != Integer.parseInt(User.id_usr)) {
@@ -59,22 +52,21 @@ class OfferDetailsActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
-        adapterImageGallery = ImageGalleryAdapter(listaImagenes)
+        adapterImageGallery = ImageGalleryAdapter(emptyList())
         rvImagenes = findViewById(R.id.rvImagenes)
 
         tvTituloOferta = findViewById(R.id.tvTituloOferta)
         tvFechaCreacion = findViewById(R.id.tvFechaCreacion)
         tvDescOferta = findViewById(R.id.tvDescOferta)
         tvPrecio = findViewById(R.id.tvPrecio)
-        btnPerfil = findViewById(R.id.btnCuenta)
         btnChat = findViewById(R.id.btnChat)
     }
 
     private fun initUI() {
-        btnPerfil.setOnClickListener { Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show() }
         btnChat.setOnClickListener {
             abrirChat(offer)
         }
+        rvImagenes.setHasFixedSize(true)
         rvImagenes.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rvImagenes.adapter = adapterImageGallery
     }
@@ -104,49 +96,12 @@ class OfferDetailsActivity : AppCompatActivity() {
         Log.i("Oferta", offer.toString())
     }
 
-    /*private fun cargarOfertas(callback: (MutableList<Offer>) -> Unit) {
-        val url = "http://77.90.13.129/android/getoffers.php"
-        val requestQueue = Volley.newRequestQueue(this)
-        val offerList = mutableListOf<Offer>()
-
-        val jsonArrayRequest = JsonArrayRequest(
-            Request.Method.GET,
-            url,
-            null,
-            { response ->
-                (0 until response.length()).forEach {
-                    val offer = response.getJSONObject(it)
-                    offerList.add(Offer(
-                        offer.get("id_oferta").toString().toInt(),
-                        offer.get("id_usr").toString().toInt(),
-                        offer.get("tipo").toString(),
-                        LocalDateTime.parse(offer.get("fecha").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-                        offer.get("titulo").toString(),
-                        offer.get("descripcion").toString(),
-                        offer.get("coste").toString().toDouble(),
-                        offer.get("cod_postal").toString(),
-                        offer.get("ruta_img_1").toString(),
-                        offer.get("ruta_img_2").toString(),
-                        offer.get("ruta_img_3").toString(),
-                        offer.get("coords_lat").toString().toDouble(),
-                        offer.get("coords_long").toString().toDouble()
-                    ))
-                }
-                callback(offerList)
-            },
-            { _ ->
-                Toast.makeText(this, "No se han podido cargar las ofertas", Toast.LENGTH_SHORT).show()
-            }
-        )
-        requestQueue.add(jsonArrayRequest)
-    }*/
-
-    /*private fun actualizarRecyclerView() {
-        cargarOfertas { offerList ->
-            if (offerList.isNotEmpty()) {
-                adapterListaOfertas.update(offerList)
-            }
-        }
-    }*/
+    private fun cargarGaleriaImagenes() {
+        val listaImagenes = mutableListOf<Image>()
+        if (offer.rutaImg1.isNotEmpty()) listaImagenes.add(Image(offer.rutaImg1))
+        if (offer.rutaImg2.isNotEmpty()) listaImagenes.add(Image(offer.rutaImg2))
+        if (offer.rutaImg3.isNotEmpty()) listaImagenes.add(Image(offer.rutaImg3))
+        adapterImageGallery.update(listaImagenes)
+    }
 
 }
