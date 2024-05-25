@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.carlossantamaria.buzeando.objects.User
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,16 +30,6 @@ class MainActivity : AppCompatActivity() {
         btnRegistro.setOnClickListener { abrirRegistro() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (User.id_usr.isNotBlank()) {
-            btnIniciarSesion.isEnabled = false
-            btnRegistro.isEnabled = false
-            finish()
-            abrirListaOfertas()
-        }
-    }
-
     private fun abrirIdentificar() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
@@ -48,11 +37,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun abrirRegistro() {
         val intent = Intent(this, RegisterActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun abrirListaOfertas() {
-        val intent = Intent(this, OfferListActivity::class.java)
         startActivity(intent)
     }
 

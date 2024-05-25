@@ -44,6 +44,17 @@
             app:iconSize="24dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvFiltroActivo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Los resultados están filtrados"
+        android:textSize="11sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llContenedorSuperior" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvListaOfertas"
         android:layout_width="match_parent"
@@ -51,7 +62,7 @@
         app:layout_constraintBottom_toTopOf="@id/flContenedorBotonesInferiores"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llContenedorSuperior" />
+        app:layout_constraintTop_toBottomOf="@id/tvFiltroActivo" />
 
     <FrameLayout
         android:id="@+id/flContenedorBotonesInferiores"

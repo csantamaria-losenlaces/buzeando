@@ -1,14 +1,19 @@
 package com.carlossantamaria.buzeando
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,9 +32,12 @@ class OfferListActivity : AppCompatActivity() {
     private lateinit var rvListaOfertas: RecyclerView
     private lateinit var etBusqueda: EditText
     private lateinit var btnFiltrar: Button
+    private lateinit var tvFiltroActivo: TextView
     private lateinit var btnCrearOferta: Button
     private lateinit var btnMapa: Button
     private lateinit var btnCuenta: Button
+    private lateinit var listaOfertasOriginal: MutableList<Offer>
+    private var filtroTipoOfertaAplicado = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +48,16 @@ class OfferListActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Toast.makeText(this@OfferListActivity, "Estás en la pantalla principal, no puedes volver hacia atrás", Toast.LENGTH_SHORT).show()
+            }
+        })
+
         initComponents()
         initUI()
-        actualizarRecyclerView()
+        rellenarRecyclerView()
     }
 
     private fun initComponents() {
@@ -50,6 +65,7 @@ class OfferListActivity : AppCompatActivity() {
         rvListaOfertas = findViewById(R.id.rvListaOfertas)
         etBusqueda = findViewById(R.id.etBusqueda)
         btnFiltrar = findViewById(R.id.btnFiltrar)
+        tvFiltroActivo = findViewById(R.id.tvFiltroActivo)
         btnCrearOferta = findViewById(R.id.btnCrearOferta)
         btnMapa = findViewById(R.id.btnMapa)
         btnCuenta = findViewById(R.id.btnCuenta)
@@ -58,31 +74,84 @@ class OfferListActivity : AppCompatActivity() {
     private fun initUI() {
         rvListaOfertas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvListaOfertas.adapter = adapterListaOfertas
-
         etBusqueda.doOnTextChanged { text, _, _, _ ->
             adapterListaOfertas.filter.filter(text)
         }
-
+        btnFiltrar.setOnClickListener { mostrarDialogoFiltro() }
         btnCrearOferta.setOnClickListener { abrirCrearOferta() }
         btnMapa.setOnClickListener { abrirMapa() }
         btnCuenta.setOnClickListener { abrirCuenta() }
     }
 
+    private fun mostrarDialogoFiltro() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_filter)
+
+        val cbProducto: CheckBox = dialog.findViewById(R.id.cbProducto)
+        val cbServicio: CheckBox = dialog.findViewById(R.id.cbServicio)
+        val btnAplicar: Button = dialog.findViewById(R.id.btnAplicar)
+
+        when (filtroTipoOfertaAplicado) {
+            "Producto" -> cbServicio.isChecked = false
+            "Servicio" -> cbProducto.isChecked = false
+        }
+
+        cbProducto.setOnClickListener {
+           if (!cbProducto.isChecked && !cbServicio.isChecked) {
+               btnAplicar.isEnabled = false
+               dialog.setCancelable(false)
+               dialog.setCanceledOnTouchOutside(false)
+           } else {
+               btnAplicar.isEnabled = true
+               dialog.setCancelable(true)
+               dialog.setCanceledOnTouchOutside(true)
+           }
+        }
+
+        cbServicio.setOnClickListener {
+            if (!cbProducto.isChecked && !cbServicio.isChecked) {
+                btnAplicar.isEnabled = false
+                dialog.setCancelable(false)
+                dialog.setCanceledOnTouchOutside(false)
+            } else {
+                btnAplicar.isEnabled = true
+                dialog.setCancelable(true)
+                dialog.setCanceledOnTouchOutside(true)
+            }
+        }
+
+        btnAplicar.setOnClickListener {
+            if (cbProducto.isChecked && cbServicio.isChecked) {
+                filtroTipoOfertaAplicado = ""
+                tvFiltroActivo.isVisible = false
+                filtrarRecyclerView(filtroTipoOfertaAplicado)
+            } else if (cbProducto.isChecked) {
+                filtroTipoOfertaAplicado = "Producto"
+                tvFiltroActivo.isVisible = true
+                filtrarRecyclerView("Producto")
+            } else {
+                filtroTipoOfertaAplicado = "Servicio"
+                tvFiltroActivo.isVisible = true
+                filtrarRecyclerView(filtroTipoOfertaAplicado)
+            }
+            dialog.hide()
+        }
+
+        dialog.show()
+    }
+
     private fun abrirCrearOferta() {
         val intent = Intent(this, AddOfferActivity::class.java)
-        finish()
         startActivity(intent)
     }
 
     private fun abrirMapa() {
         val intent = Intent(this, OfferMapActivity::class.java)
-        finish()
         startActivity(intent)
     }
 
     private fun abrirCuenta() {
         val intent = Intent(this, AccountActivity::class.java)
-        finish()
         startActivity(intent)
     }
 
@@ -123,10 +192,27 @@ class OfferListActivity : AppCompatActivity() {
         requestQueue.add(jsonArrayRequest)
     }
 
-    private fun actualizarRecyclerView() {
-        cargarOfertas { offerList ->
-            if (offerList.isNotEmpty()) {
-                adapterListaOfertas.setData(offerList)
+    private fun rellenarRecyclerView() {
+        cargarOfertas {
+            if (it.isNotEmpty()) {
+                listaOfertasOriginal = it
+                adapterListaOfertas.setData(listaOfertasOriginal)
+            }
+        }
+    }
+
+    private fun filtrarRecyclerView(tipo: String) {
+        when (tipo) {
+            "Producto" -> {
+                val listaOfertasFiltrada = listaOfertasOriginal.filter { it.tipo == "Producto" }.toMutableList()
+                adapterListaOfertas.updateData(listaOfertasFiltrada)
+            }
+            "Servicio" -> {
+                val listaOfertasFiltrada = listaOfertasOriginal.filter { it.tipo == "Servicio" }.toMutableList()
+                adapterListaOfertas.updateData(listaOfertasFiltrada)
+            }
+            else -> {
+                adapterListaOfertas.updateData(listaOfertasOriginal)
             }
         }
     }
