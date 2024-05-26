@@ -8,6 +8,7 @@ import android.location.Location
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -35,6 +36,7 @@ class OfferMapActivity : AppCompatActivity(),
     ActivityCompat.OnRequestPermissionsResultCallback {
 
     private lateinit var btnListaOfertas: Button
+    private lateinit var btnConversaciones: Button
     private lateinit var btnCuenta: Button
     private var permissionDenied = false
     private lateinit var map: GoogleMap
@@ -50,10 +52,16 @@ class OfferMapActivity : AppCompatActivity(),
             insets
         }
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {}
+        })
+
         btnListaOfertas = findViewById(R.id.btnListaOfertas)
+        btnConversaciones = findViewById(R.id.btnConversaciones)
         btnCuenta = findViewById(R.id.btnCuenta)
 
         btnListaOfertas.setOnClickListener { abrirListaOfertas() }
+        btnConversaciones.setOnClickListener { abrirConversaciones() }
         btnCuenta.setOnClickListener { abrirCuenta() }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -62,6 +70,12 @@ class OfferMapActivity : AppCompatActivity(),
 
     private fun abrirListaOfertas() {
         val intent = Intent(this, OfferListActivity::class.java)
+        finish()
+        startActivity(intent)
+    }
+
+    private fun abrirConversaciones() {
+        val intent = Intent(this, ConversationsActivity::class.java)
         finish()
         startActivity(intent)
     }

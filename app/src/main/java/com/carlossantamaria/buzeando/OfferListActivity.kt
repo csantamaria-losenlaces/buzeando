@@ -35,6 +35,7 @@ class OfferListActivity : AppCompatActivity() {
     private lateinit var tvFiltroActivo: TextView
     private lateinit var btnCrearOferta: Button
     private lateinit var btnMapa: Button
+    private lateinit var btnConversaciones: Button
     private lateinit var btnCuenta: Button
     private lateinit var listaOfertasOriginal: MutableList<Offer>
     private var filtroTipoOfertaAplicado = ""
@@ -50,9 +51,7 @@ class OfferListActivity : AppCompatActivity() {
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                Toast.makeText(this@OfferListActivity, "Estás en la pantalla principal, no puedes volver hacia atrás", Toast.LENGTH_SHORT).show()
-            }
+            override fun handleOnBackPressed() {}
         })
 
         initComponents()
@@ -68,6 +67,7 @@ class OfferListActivity : AppCompatActivity() {
         tvFiltroActivo = findViewById(R.id.tvFiltroActivo)
         btnCrearOferta = findViewById(R.id.btnCrearOferta)
         btnMapa = findViewById(R.id.btnMapa)
+        btnConversaciones = findViewById(R.id.btnConversaciones)
         btnCuenta = findViewById(R.id.btnCuenta)
     }
 
@@ -80,6 +80,7 @@ class OfferListActivity : AppCompatActivity() {
         btnFiltrar.setOnClickListener { mostrarDialogoFiltro() }
         btnCrearOferta.setOnClickListener { abrirCrearOferta() }
         btnMapa.setOnClickListener { abrirMapa() }
+        btnConversaciones.setOnClickListener { abrirConversaciones() }
         btnCuenta.setOnClickListener { abrirCuenta() }
     }
 
@@ -147,11 +148,19 @@ class OfferListActivity : AppCompatActivity() {
 
     private fun abrirMapa() {
         val intent = Intent(this, OfferMapActivity::class.java)
+        finish()
+        startActivity(intent)
+    }
+
+    private fun abrirConversaciones() {
+        val intent = Intent(this, ConversationsActivity::class.java)
+        finish()
         startActivity(intent)
     }
 
     private fun abrirCuenta() {
         val intent = Intent(this, AccountActivity::class.java)
+        finish()
         startActivity(intent)
     }
 

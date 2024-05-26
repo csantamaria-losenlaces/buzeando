@@ -3,6 +3,8 @@ package com.carlossantamaria.buzeando
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,6 +24,12 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Toast.makeText(this@MainActivity, "Pulsa el botón Home para salir de la aplicación", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         btnIniciarSesion = findViewById(R.id.btnTengoCuenta)
         btnRegistro = findViewById(R.id.btnRegistrarCuenta)

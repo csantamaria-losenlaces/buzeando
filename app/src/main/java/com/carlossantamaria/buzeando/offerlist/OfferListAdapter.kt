@@ -10,7 +10,8 @@ import com.carlossantamaria.buzeando.R
 import com.carlossantamaria.buzeando.objects.Offer
 
 class OfferListAdapter(
-    private var listaOfertas: List<Offer>, private val onItemClicked: (Offer) -> Unit
+    private var listaOfertas: List<Offer>,
+    private val onItemClicked: (Offer) -> Unit
 ) : RecyclerView.Adapter<OfferListViewHolder>(), Filterable {
 
     private var listaOfertasOriginal = listOf<Offer>()

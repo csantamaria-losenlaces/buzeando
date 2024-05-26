@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -36,6 +37,7 @@ class AccountActivity : AppCompatActivity() {
     private lateinit var btnGuardar: Button
     private lateinit var btnMapa: Button
     private lateinit var btnListaOfertas: Button
+    private lateinit var btnConversaciones: Button
     private lateinit var tvCerrarSesion: TextView
     private val hayCambios:Array<Boolean> = arrayOf(false, false, false, false, false)
     private val nuevosDatos = hashMapOf<String, String>()
@@ -49,6 +51,11 @@ class AccountActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {}
+        })
+
         initComponents()
         recuperarDatosUsuario()
         initUI()
@@ -66,6 +73,7 @@ class AccountActivity : AppCompatActivity() {
         btnGuardar = findViewById(R.id.btnGuardar)
         btnMapa = findViewById(R.id.btnMapa)
         btnListaOfertas = findViewById(R.id.btnListaOfertas)
+        btnConversaciones = findViewById(R.id.btnConversaciones)
         tvCerrarSesion = findViewById(R.id.tvCerrarSesion)
     }
 
@@ -114,6 +122,7 @@ class AccountActivity : AppCompatActivity() {
         tvCerrarSesion.setOnClickListener { cerrarSesion() }
         btnMapa.setOnClickListener { abrirMapa() }
         btnListaOfertas.setOnClickListener { abrirListaOfertas() }
+        btnConversaciones.setOnClickListener { abrirConversaciones() }
     }
 
    private fun recuperarDatosUsuario() {
@@ -135,6 +144,12 @@ class AccountActivity : AppCompatActivity() {
 
     private fun abrirListaOfertas() {
         val intent = Intent(this, OfferListActivity::class.java)
+        finish()
+        startActivity(intent)
+    }
+
+    private fun abrirConversaciones() {
+        val intent = Intent(this, ConversationsActivity::class.java)
         finish()
         startActivity(intent)
     }

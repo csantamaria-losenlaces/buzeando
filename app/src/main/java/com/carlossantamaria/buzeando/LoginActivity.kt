@@ -101,7 +101,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun abrirListaOfertas() {
         val intent = Intent(this, OfferListActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_HISTORY
         finish()
         startActivity(intent)
     }

@@ -3,7 +3,6 @@ package com.carlossantamaria.buzeando
 import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.carlossantamaria.buzeando.imagegallery.ImageGalleryAdapter
 import com.carlossantamaria.buzeando.objects.Image
 import com.carlossantamaria.buzeando.objects.Offer
+import com.carlossantamaria.buzeando.objects.User
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -30,6 +30,7 @@ class OfferDetailsActivity : AppCompatActivity() {
     private lateinit var btnChat: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_offer_details)
@@ -38,16 +39,16 @@ class OfferDetailsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         initComponents()
         initUI()
+
         cargarDatosOferta()
         cargarGaleriaImagenes()
 
-        // DESCOMENTAR CUANDO HAYA LISTA DE CHATS
-        /*if (offer.idUsr != Integer.parseInt(User.id_usr)) {
+        if (offer.idUsr != Integer.parseInt(User.id_usr)) {
             btnChat.isEnabled = true
-        }*/
-        btnChat.isEnabled = true // QUITAR ESTO CUANDO HAYA LISTA DE CHATS
+        }
 
     }
 
@@ -64,7 +65,7 @@ class OfferDetailsActivity : AppCompatActivity() {
 
     private fun initUI() {
         btnChat.setOnClickListener {
-            abrirChat(offer)
+            abrirConversacion(offer.idUsr)
         }
         rvImagenes.setHasFixedSize(true)
         rvImagenes.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -89,11 +90,10 @@ class OfferDetailsActivity : AppCompatActivity() {
         tvPrecio.text = String.format(Locale.GERMAN, "%.2f €", offer.coste)
     }
 
-    private fun abrirChat(offer: Offer) {
+    private fun abrirConversacion(idRecipient: Int) {
         val intent = Intent(this, ChatActivity::class.java)
-        intent.putExtra("offer_object", offer)
+        intent.putExtra("id_recipient", idRecipient)
         startActivity(intent)
-        Log.i("Oferta", offer.toString())
     }
 
     private fun cargarGaleriaImagenes() {

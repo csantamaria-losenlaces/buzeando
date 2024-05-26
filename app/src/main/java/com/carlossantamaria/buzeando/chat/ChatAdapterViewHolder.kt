@@ -65,7 +65,7 @@ class ChatAdapterViewHolder : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.apply {
                 chat.also {
                     tvMensaje.text = chat.message
-                    tvHora.text = chat.time
+                    tvHoraUltimoMensaje.text = chat.time
                 }
             }
         }
@@ -77,7 +77,7 @@ class ChatAdapterViewHolder : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.apply {
                 chat.also {
                     tvMensaje.text = chat.message
-                    tvHora.text = chat.time
+                    tvHoraUltimoMensaje.text = chat.time
                 }
             }
         }

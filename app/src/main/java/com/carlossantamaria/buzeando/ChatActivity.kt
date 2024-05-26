@@ -2,9 +2,7 @@ package com.carlossantamaria.buzeando
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -27,7 +25,6 @@ import com.carlossantamaria.buzeando.chat.LoadMessages
 import com.carlossantamaria.buzeando.chat.SendMessage
 import com.carlossantamaria.buzeando.databinding.ActivityChatBinding
 import com.carlossantamaria.buzeando.objects.ChatModel
-import com.carlossantamaria.buzeando.objects.Offer
 import com.carlossantamaria.buzeando.objects.User
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -37,12 +34,12 @@ import java.util.Locale
 
 class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
 
-    private lateinit var offer: Offer
     private lateinit var tvTitulo: TextView
     private lateinit var rvConversacion: RecyclerView
     private lateinit var etMensaje: EditText
     private lateinit var btnEnviar: Button
 
+    private var idRecipient: Int = -1
     private var idConversacion: Int = -1
     private var listaMensajes = mutableListOf<ChatModel>()
 
@@ -66,8 +63,7 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         initComponents()
         initUI()
 
-        cargarDatosOferta()
-        cargarDatosDestinatario {
+        cargarDestinatario {
             tvTitulo.text = buildString {
                 append("Chat con ")
                 append(it[0])
@@ -83,7 +79,7 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
             )
         }
 
-        CreateOrLoadConversation(this).createOrLoadConversation(Integer.parseInt(User.id_usr), offer.idUsr) { idRecibido ->
+        CreateOrLoadConversation(this).createOrLoadConversation(Integer.parseInt(User.id_usr), idRecipient) { idRecibido ->
             idConversacion = idRecibido
             LoadMessages(this).loadMessages(idConversacion) { mensajesRecibidos ->
                 listaMensajes = mensajesRecibidos
@@ -106,7 +102,6 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
 
     override fun onMessage(text: String) {
         runOnUiThread {
-            Log.i("DEBUG CARLOS", "Estoy entrando a onMessage()")
             addMessageToChat(text, "RECEIVE")
         }
     }
@@ -151,6 +146,8 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         chatWebSocket.connect()
 
         chatAdapter = ChatAdapterViewHolder()
+
+        idRecipient = intent.getIntExtra("id_recipient", -1)
     }
 
     private fun initUI() {
@@ -166,17 +163,8 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         }
     }
 
-    private fun cargarDatosOferta() {
-        offer = if (Build.VERSION.SDK_INT >= 33) {
-            intent.getParcelableExtra("offer_object", Offer::class.java)!!
-        } else {
-            (intent.getParcelableExtra("offer_object") as? Offer)!!
-        }
-    }
-
-    private fun cargarDatosDestinatario(callback: (List<String>) -> Unit) {
-        Log.i("Valor de oferta al entrar a cargarDatosDestinatario", "${offer.idUsr}")
-        val url = "http://77.90.13.129/android/chatrecipient.php?id_usr=${offer.idUsr}"
+    private fun cargarDestinatario(callback: (List<String>) -> Unit) {
+        val url = "http://77.90.13.129/android/chatrecipient.php?id_usr=${idRecipient}"
         val requestQueue = Volley.newRequestQueue(this)
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null, { response ->
             val nombre = response.getString("nombre")
