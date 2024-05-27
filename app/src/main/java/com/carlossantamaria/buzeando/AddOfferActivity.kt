@@ -43,7 +43,6 @@ class AddOfferActivity : AppCompatActivity() {
     private lateinit var tvDescDemasiadoLarga: TextView
     private lateinit var etPrecio: EditText
     private lateinit var tvCodPostalValor: TextView
-    private lateinit var btnSubirImagen: Button
     private lateinit var btnElegirUbicacion: Button
     private lateinit var tvDireccion: TextView
     private lateinit var btnCrearOferta: Button
@@ -56,7 +55,7 @@ class AddOfferActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_offer_add)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityOfferAdd)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -99,7 +98,6 @@ class AddOfferActivity : AppCompatActivity() {
         etDescripcion = findViewById(R.id.etDescripcion)
         etPrecio = findViewById(R.id.etPrecio)
         tvCodPostalValor = findViewById(R.id.tvCodPostalValor)
-        btnSubirImagen = findViewById(R.id.btnSubirImagen)
         btnElegirUbicacion = findViewById(R.id.btnElegirUbicacion)
         tvDireccion = findViewById(R.id.tvDireccion)
         btnCrearOferta = findViewById(R.id.btnCrearOferta)
@@ -108,7 +106,6 @@ class AddOfferActivity : AppCompatActivity() {
     private fun initUI() {
         etTituloOferta.doAfterTextChanged { tvTituloDemasiadoLargo.isVisible = etTituloOferta.length() == 100 }
         etDescripcion.doAfterTextChanged { tvDescDemasiadoLarga.isVisible = etDescripcion.length() == 750 }
-        btnSubirImagen.setOnClickListener { Toast.makeText(this, "Esta función estará disponible muy pronto", Toast.LENGTH_SHORT).show() }
         btnElegirUbicacion.setOnClickListener {
             it.ocultarTeclado()
             lanzarPlacesAPI()
@@ -222,4 +219,5 @@ class AddOfferActivity : AppCompatActivity() {
         finish()
         startActivity(intent)
     }
+
 }

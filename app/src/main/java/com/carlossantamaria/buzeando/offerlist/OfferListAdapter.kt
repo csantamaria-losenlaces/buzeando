@@ -27,7 +27,9 @@ class OfferListAdapter(
         }
 
         override fun publishResults(input: CharSequence, results: FilterResults) {
-            updateData(results.values as MutableList<Offer>)
+            @Suppress("UNCHECKED_CAST")
+            val filteredList = results.values as List<Offer>
+            updateData(filteredList.toMutableList())
         }
     }
 
@@ -44,9 +46,9 @@ class OfferListAdapter(
 
     override fun getItemCount(): Int = listaOfertas.size
 
-    fun setData(list: MutableList<Offer>) {
+    fun setData(list: List<Offer>) {
         this.listaOfertasOriginal = list
-        updateData(list)
+        updateData(listaOfertasOriginal.toMutableList())
     }
 
     @SuppressLint("NotifyDataSetChanged")

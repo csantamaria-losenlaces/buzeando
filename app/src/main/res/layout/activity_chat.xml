@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/activityChat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="12dp"
@@ -15,6 +15,8 @@
         android:text="Chat con XXXX"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/rvConversacion"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/etMensaje"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
 
@@ -35,7 +38,8 @@
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnEnviar"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvConversacion" />
 
     <Button
         android:id="@+id/btnEnviar"
@@ -52,6 +56,9 @@
         app:iconSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
+        app:layout_constraintStart_toEndOf="@id/etMensaje"
+        app:layout_constraintTop_toBottomOf="@id/rvConversacion"
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+        android:enabled="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

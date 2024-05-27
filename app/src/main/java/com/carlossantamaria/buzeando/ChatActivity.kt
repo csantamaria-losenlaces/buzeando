@@ -13,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -54,7 +55,7 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityChat)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -151,15 +152,21 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
     }
 
     private fun initUI() {
+        etMensaje.addTextChangedListener {
+            btnEnviar.isEnabled = etMensaje.text.toString().isNotEmpty()
+        }
+
         btnEnviar.setOnClickListener {
             val message = etMensaje.text.toString()
-            val currTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString()
-            etMensaje.setText("")
-            it.ocultarTeclado()
-            SendMessage(this).sendMessage(idConversacion, message, User.id_usr, currTime) {}
-            chatWebSocket.send(message)
-            addMessageToChat(message, "SEND")
-            rvConversacion.scrollToPosition(chatAdapter.itemCount - 1)
+            if (message.isNotEmpty()) {
+                val currTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString()
+                etMensaje.setText("")
+                it.ocultarTeclado()
+                SendMessage(this).sendMessage(idConversacion, message, User.id_usr, currTime) {}
+                chatWebSocket.send(message)
+                addMessageToChat(message, "SEND")
+                rvConversacion.scrollToPosition(chatAdapter.itemCount - 1)
+            }
         }
     }
 
