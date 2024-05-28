@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         btnIniciarSesion.setOnClickListener { abrirIdentificar() }
         btnRegistro.setOnClickListener { abrirRegistro() }
+
     }
 
     private fun abrirIdentificar() {
