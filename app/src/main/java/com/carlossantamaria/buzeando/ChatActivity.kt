@@ -80,7 +80,10 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
             )
         }
 
-        CreateOrLoadConversation(this).createOrLoadConversation(Integer.parseInt(User.id_usr), idRecipient) { idRecibido ->
+        CreateOrLoadConversation(this).createOrLoadConversation(
+            Integer.parseInt(User.id_usr),
+            idRecipient
+        ) { idRecibido ->
             idConversacion = idRecibido
             LoadMessages(this).loadMessages(idConversacion) { mensajesRecibidos ->
                 listaMensajes = mensajesRecibidos
@@ -95,11 +98,7 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         this.recreate()
     }
 
-    override fun onOpen() {
-        runOnUiThread {
-            Toast.makeText(this, "Conectado al chat", Toast.LENGTH_SHORT).show()
-        }
-    }
+    override fun onOpen() {}
 
     override fun onMessage(text: String) {
         runOnUiThread {
@@ -107,15 +106,11 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         }
     }
 
-    override fun onClosing(code: Int, reason: String) {
-        runOnUiThread {
-            Toast.makeText(this, "Chat cerrado: $reason", Toast.LENGTH_SHORT).show()
-        }
-    }
+    override fun onClosing(code: Int, reason: String) {}
 
     override fun onFailure(t: Throwable) {
         runOnUiThread {
-            Toast.makeText(this, "Error en el chat: ${t.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error al acceder al chat", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -159,7 +154,9 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
         btnEnviar.setOnClickListener {
             val message = etMensaje.text.toString()
             if (message.isNotEmpty()) {
-                val currTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString()
+                val currTime =
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                        .toString()
                 etMensaje.setText("")
                 it.ocultarTeclado()
                 SendMessage(this).sendMessage(idConversacion, message, User.id_usr, currTime) {}
@@ -178,14 +175,19 @@ class ChatActivity : AppCompatActivity(), ChatWebSocket.ChatWebSocketListener {
             val apellidos = response.getString("apellidos")
             callback(listOf(nombre, apellidos))
         }, {
-            Toast.makeText(this, "Los datos son incorrectos o la cuenta no existe", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                this,
+                "Los datos son incorrectos o la cuenta no existe",
+                Toast.LENGTH_SHORT
+            )
                 .show()
         })
         requestQueue.add(jsonObjectRequest)
     }
 
     private fun View.ocultarTeclado() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 

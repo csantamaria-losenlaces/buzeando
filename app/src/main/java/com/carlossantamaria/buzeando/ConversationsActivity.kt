@@ -2,7 +2,6 @@ package com.carlossantamaria.buzeando
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -50,7 +49,8 @@ class ConversationsActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
-        adapterListaConversaciones = ConversationsListAdapter(emptyList()) { abrirConversacion(it.idReceptor) }
+        adapterListaConversaciones =
+            ConversationsListAdapter(emptyList()) { abrirConversacion(it.idReceptor) }
         rvConversaciones = findViewById(R.id.rvConversaciones)
         btnMapa = findViewById(R.id.btnMapa)
         btnListaOfertas = findViewById(R.id.btnListaOfertas)
@@ -58,7 +58,8 @@ class ConversationsActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        rvConversaciones.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvConversaciones.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvConversaciones.adapter = adapterListaConversaciones
         btnMapa.setOnClickListener { abrirMapa() }
         btnListaOfertas.setOnClickListener { abrirListaOfertas() }
@@ -118,8 +119,11 @@ class ConversationsActivity : AppCompatActivity() {
                 callback(conversationList)
             },
             { error ->
-                Toast.makeText(this, "No se han podido cargar las conversaciones", Toast.LENGTH_SHORT).show()
-                Log.i("Error de consulta", error.message.toString())
+                Toast.makeText(
+                    this,
+                    "No se han podido cargar las conversaciones",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         )
         requestQueue.add(jsonObjectRequest)

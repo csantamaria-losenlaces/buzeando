@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -93,14 +92,11 @@ class RegisterActivity : AppCompatActivity() {
                         etDireccion.setText(place.name)
 
                         addressComponents?.asList()?.forEach { component ->
-                            Log.i("Places API", component.toString())
                             val codPostal = component.types.find { "postal_code" == it }
                             if (!codPostal.isNullOrEmpty()) etCodPostal.setText(component.name)
                         }
 
                     }
-                } else if (result.resultCode == Activity.RESULT_CANCELED) {
-                    Log.i("Places API", "User canceled autocomplete")
                 }
             }
 
@@ -171,8 +167,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun camposCumplimentados(): Boolean = (!(etNombre.text.isNullOrEmpty() || etApellidos.text.isNullOrEmpty() || etDireccion.text.isNullOrEmpty() || etCodPostal.text.isNullOrEmpty()
-            || etMovil.text.isNullOrEmpty() || etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty()) || etContrasenaRepetir.text.isNullOrEmpty())
+    private fun camposCumplimentados(): Boolean =
+        (!(etNombre.text.isNullOrEmpty() || etApellidos.text.isNullOrEmpty() || etDireccion.text.isNullOrEmpty() || etCodPostal.text.isNullOrEmpty()
+                || etMovil.text.isNullOrEmpty() || etCorreoElec.text.isNullOrEmpty() || etContrasena.text.isNullOrEmpty()) || etContrasenaRepetir.text.isNullOrEmpty())
 
     private fun enviarDatosRegistro(
         url: String,
@@ -194,7 +191,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun View.ocultarTeclado() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
@@ -204,7 +202,6 @@ class RegisterActivity : AppCompatActivity() {
 
         // Log an error if apiKey is not set.
         if (apiKey.isEmpty() || apiKey == "DEFAULT_API_KEY") {
-            Log.e("Places test", "No api key")
             finish()
             return
         }
@@ -228,13 +225,15 @@ class RegisterActivity : AppCompatActivity() {
             url,
             null,
             { response ->
-                Log.i("Log personalizado", "Respuesta exitosa")
                 val numCoincidencias = response.getString("count").toInt()
                 callback(numCoincidencias)
             },
             {
-                Log.i("Log personalizado", "Respuesta no exitosa")
-                Toast.makeText(this, "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    this,
+                    "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.",
+                    Toast.LENGTH_LONG
+                )
                     .show()
                 callback(-1) // Envía un valor predeterminado en caso de error
             }
@@ -242,6 +241,7 @@ class RegisterActivity : AppCompatActivity() {
         requestQueue.add(jsonObjectRequest)
     }
 
-    private fun claveCoincide(): Boolean = (etContrasena.text.toString() == etContrasenaRepetir.text.toString())
+    private fun claveCoincide(): Boolean =
+        (etContrasena.text.toString() == etContrasenaRepetir.text.toString())
 
 }

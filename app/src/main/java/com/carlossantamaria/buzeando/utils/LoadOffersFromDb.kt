@@ -27,26 +27,30 @@ object LoadOffersFromDb {
                     Log.i("Volley", "Título de la oferta: ${offer.get("titulo")}")
                     offerList.add(
                         Offer(
-                        offer.get("id_oferta").toString().toInt(),
-                        offer.get("id_usr").toString().toInt(),
-                        offer.get("tipo").toString(),
-                        LocalDateTime.parse(offer.get("fecha").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-                        offer.get("titulo").toString(),
-                        offer.get("descripcion").toString(),
-                        offer.get("coste").toString().toDouble(),
-                        offer.get("cod_postal").toString(),
-                        offer.get("ruta_img_1").toString(),
-                        offer.get("ruta_img_2").toString(),
-                        offer.get("ruta_img_3").toString(),
-                        offer.get("coords_lat").toString().toDouble(),
-                        offer.get("coords_long").toString().toDouble()
-                    )
+                            offer.get("id_oferta").toString().toInt(),
+                            offer.get("id_usr").toString().toInt(),
+                            offer.get("tipo").toString(),
+                            LocalDateTime.parse(
+                                offer.get("fecha").toString(),
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                            ),
+                            offer.get("titulo").toString(),
+                            offer.get("descripcion").toString(),
+                            offer.get("coste").toString().toDouble(),
+                            offer.get("cod_postal").toString(),
+                            offer.get("ruta_img_1").toString(),
+                            offer.get("ruta_img_2").toString(),
+                            offer.get("ruta_img_3").toString(),
+                            offer.get("coords_lat").toString().toDouble(),
+                            offer.get("coords_long").toString().toDouble()
+                        )
                     )
                 }
                 callback(offerList)
             },
             { error ->
-                Toast.makeText(context, "No se han podido cargar las ofertas", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "No se han podido cargar las ofertas", Toast.LENGTH_SHORT)
+                    .show()
                 Log.i("Volley", error.message.toString())
             }
         )

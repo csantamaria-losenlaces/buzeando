@@ -1,6 +1,6 @@
 package com.carlossantamaria.buzeando.objects
 
-data class ConversationItem (
+data class ConversationItem(
     var idConversacion: Int,
     var idReceptor: Int,
     var nombreReceptor: String,

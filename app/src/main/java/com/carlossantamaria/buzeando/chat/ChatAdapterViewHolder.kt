@@ -23,6 +23,7 @@ class ChatAdapterViewHolder : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val binding = MessageInItemBinding.inflate(inflater, parent, false)
                 LeftViewHolder(binding)
             }
+
             else -> {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = MessageOutItemBinding.inflate(inflater, parent, false)

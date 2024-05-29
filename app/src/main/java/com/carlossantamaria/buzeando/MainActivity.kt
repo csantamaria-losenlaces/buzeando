@@ -27,7 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                Toast.makeText(this@MainActivity, "Pulsa el botón Home para salir de la aplicación", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Pulsa el botón Home para salir de la aplicación",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
 

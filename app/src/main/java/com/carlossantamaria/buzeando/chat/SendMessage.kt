@@ -1,7 +1,6 @@
 package com.carlossantamaria.buzeando.chat
 
 import android.content.Context
-import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -12,13 +11,18 @@ class SendMessage(context: Context) {
 
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
-    fun sendMessage(conversationId: Int, message: String, senderId: String, time: String, callback: (Boolean) -> Unit) {
+    fun sendMessage(
+        conversationId: Int,
+        message: String,
+        senderId: String,
+        time: String,
+        callback: (Boolean) -> Unit
+    ) {
         val url = "http://77.90.13.129/android/sendmessage.php"
         val postRequest = object : StringRequest(
             Method.POST, url,
             Response.Listener { response ->
                 val jsonResponse = JSONObject(response)
-                Log.i("Respuesta json", jsonResponse.toString())
                 val success = jsonResponse.getBoolean("success")
                 callback(success)
             },

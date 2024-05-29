@@ -72,7 +72,8 @@ class OfferListActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        rvListaOfertas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvListaOfertas.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvListaOfertas.adapter = adapterListaOfertas
         etBusqueda.doOnTextChanged { text, _, _, _ ->
             adapterListaOfertas.filter.filter(text)
@@ -98,15 +99,15 @@ class OfferListActivity : AppCompatActivity() {
         }
 
         cbProducto.setOnClickListener {
-           if (!cbProducto.isChecked && !cbServicio.isChecked) {
-               btnAplicar.isEnabled = false
-               dialog.setCancelable(false)
-               dialog.setCanceledOnTouchOutside(false)
-           } else {
-               btnAplicar.isEnabled = true
-               dialog.setCancelable(true)
-               dialog.setCanceledOnTouchOutside(true)
-           }
+            if (!cbProducto.isChecked && !cbServicio.isChecked) {
+                btnAplicar.isEnabled = false
+                dialog.setCancelable(false)
+                dialog.setCanceledOnTouchOutside(false)
+            } else {
+                btnAplicar.isEnabled = true
+                dialog.setCancelable(true)
+                dialog.setCanceledOnTouchOutside(true)
+            }
         }
 
         cbServicio.setOnClickListener {
@@ -176,26 +177,32 @@ class OfferListActivity : AppCompatActivity() {
             { response ->
                 (0 until response.length()).forEach {
                     val offer = response.getJSONObject(it)
-                    offerList.add(Offer(
-                        offer.get("id_oferta").toString().toInt(),
-                        offer.get("id_usr").toString().toInt(),
-                        offer.get("tipo").toString(),
-                        LocalDateTime.parse(offer.get("fecha").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-                        offer.get("titulo").toString(),
-                        offer.get("descripcion").toString(),
-                        offer.get("coste").toString().toDouble(),
-                        offer.get("cod_postal").toString(),
-                        offer.get("ruta_img_1").toString(),
-                        offer.get("ruta_img_2").toString(),
-                        offer.get("ruta_img_3").toString(),
-                        offer.get("coords_lat").toString().toDouble(),
-                        offer.get("coords_long").toString().toDouble()
-                    ))
+                    offerList.add(
+                        Offer(
+                            offer.get("id_oferta").toString().toInt(),
+                            offer.get("id_usr").toString().toInt(),
+                            offer.get("tipo").toString(),
+                            LocalDateTime.parse(
+                                offer.get("fecha").toString(),
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                            ),
+                            offer.get("titulo").toString(),
+                            offer.get("descripcion").toString(),
+                            offer.get("coste").toString().toDouble(),
+                            offer.get("cod_postal").toString(),
+                            offer.get("ruta_img_1").toString(),
+                            offer.get("ruta_img_2").toString(),
+                            offer.get("ruta_img_3").toString(),
+                            offer.get("coords_lat").toString().toDouble(),
+                            offer.get("coords_long").toString().toDouble()
+                        )
+                    )
                 }
                 callback(offerList)
             },
             { _ ->
-                Toast.makeText(this, "No se han podido cargar las ofertas", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No se han podido cargar las ofertas", Toast.LENGTH_SHORT)
+                    .show()
             }
         )
         requestQueue.add(jsonArrayRequest)
@@ -213,13 +220,17 @@ class OfferListActivity : AppCompatActivity() {
     private fun filtrarRecyclerView(tipo: String) {
         when (tipo) {
             "Producto" -> {
-                val listaOfertasFiltrada = listaOfertasOriginal.filter { it.tipo == "Producto" }.toMutableList()
+                val listaOfertasFiltrada =
+                    listaOfertasOriginal.filter { it.tipo == "Producto" }.toMutableList()
                 adapterListaOfertas.updateData(listaOfertasFiltrada)
             }
+
             "Servicio" -> {
-                val listaOfertasFiltrada = listaOfertasOriginal.filter { it.tipo == "Servicio" }.toMutableList()
+                val listaOfertasFiltrada =
+                    listaOfertasOriginal.filter { it.tipo == "Servicio" }.toMutableList()
                 adapterListaOfertas.updateData(listaOfertasFiltrada)
             }
+
             else -> {
                 adapterListaOfertas.updateData(listaOfertasOriginal)
             }

@@ -9,10 +9,11 @@ import com.carlossantamaria.buzeando.objects.ConversationItem
 class ConversationsListAdapter(
     private var listaConversaciones: List<ConversationItem>,
     private val onItemClicked: (ConversationItem) -> Unit
-): RecyclerView.Adapter<ConversationsListViewHolder>() {
+) : RecyclerView.Adapter<ConversationsListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationsListViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.conversation_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.conversation_item, parent, false)
         return ConversationsListViewHolder(view) { clickedItemPosition ->
             onItemClicked(listaConversaciones[clickedItemPosition])
         }

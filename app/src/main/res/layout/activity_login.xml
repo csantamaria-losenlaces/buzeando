@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activityLogin"
@@ -37,11 +36,11 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:hint="Introduce tu correo electrónico..."
+        android:inputType="textEmailAddress"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvCorreoElec"
-        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta"
-        android:inputType="textEmailAddress"/>
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrarCuenta" />
 
     <!-- Contraseña -->
     <TextView
@@ -58,20 +57,20 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:hint="Introduce tu contraseña..."
+        android:inputType="textPassword"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvContrasena"
-        app:layout_constraintTop_toBottomOf="@id/tvCorreoElec"
-        android:inputType="textPassword"/>
+        app:layout_constraintTop_toBottomOf="@id/tvCorreoElec" />
 
     <Button
         android:id="@+id/btnAcceder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         android:text="Acceder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvContrasena"
-        android:layout_marginTop="36dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tvContrasena" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

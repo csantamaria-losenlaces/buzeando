@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -39,7 +38,7 @@ class AccountActivity : AppCompatActivity() {
     private lateinit var btnListaOfertas: Button
     private lateinit var btnConversaciones: Button
     private lateinit var tvCerrarSesion: TextView
-    private val hayCambios:Array<Boolean> = arrayOf(false, false, false, false, false)
+    private val hayCambios: Array<Boolean> = arrayOf(false, false, false, false, false)
     private val nuevosDatos = hashMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,26 +80,33 @@ class AccountActivity : AppCompatActivity() {
         etDireccion.addTextChangedListener {
             hayCambios[0] = etDireccion.text.toString() != User.dir
             btnGuardar.isEnabled = hayCambios.contains(true)
-            if (hayCambios[0]) nuevosDatos["dir"] = etDireccion.text.toString() else nuevosDatos.remove("dir")
+            if (hayCambios[0]) nuevosDatos["dir"] =
+                etDireccion.text.toString() else nuevosDatos.remove("dir")
         }
         etMovil.addTextChangedListener {
             hayCambios[1] = etMovil.text.toString() != User.movil
             btnGuardar.isEnabled = hayCambios.contains(true)
-            if (hayCambios[1]) nuevosDatos["movil"] = etMovil.text.toString() else nuevosDatos.remove("movil")
+            if (hayCambios[1]) nuevosDatos["movil"] =
+                etMovil.text.toString() else nuevosDatos.remove("movil")
         }
         etCorreoElec.addTextChangedListener {
             hayCambios[2] = etCorreoElec.text.toString() != User.mail
             btnGuardar.isEnabled = hayCambios.contains(true)
-            if (hayCambios[2]) nuevosDatos["mail"] = etCorreoElec.text.toString() else nuevosDatos.remove("mail")
+            if (hayCambios[2]) nuevosDatos["mail"] =
+                etCorreoElec.text.toString() else nuevosDatos.remove("mail")
         }
         etContrasena.addTextChangedListener {
-            hayCambios[3] = (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
-            hayCambios[4] = (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
+            hayCambios[3] =
+                (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
+            hayCambios[4] =
+                (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
             btnGuardar.isEnabled = hayCambios.contains(true)
         }
         etContrasenaRepetir.addTextChangedListener {
-            hayCambios[4] = (etContrasenaRepetir.text.isNotEmpty() && etContrasena.text.isNotEmpty())
-            hayCambios[3] = (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
+            hayCambios[4] =
+                (etContrasenaRepetir.text.isNotEmpty() && etContrasena.text.isNotEmpty())
+            hayCambios[3] =
+                (etContrasena.text.isNotEmpty() && etContrasenaRepetir.text.isNotEmpty())
             btnGuardar.isEnabled = hayCambios.contains(true)
         }
         btnGuardar.setOnClickListener {
@@ -112,7 +118,9 @@ class AccountActivity : AppCompatActivity() {
                         .setPositiveButton("Volver") { dialog, _ -> dialog.dismiss() }
                     builder.create().show()
                 } else {
-                    if (hayCambios[3]) nuevosDatos["hash_pwd"] = Bcrypt.hash(etContrasena.text.toString(), 12).decodeToString() else nuevosDatos.remove("hash_pwd")
+                    if (hayCambios[3]) nuevosDatos["hash_pwd"] =
+                        Bcrypt.hash(etContrasena.text.toString(), 12)
+                            .decodeToString() else nuevosDatos.remove("hash_pwd")
                 }
             }
             nuevosDatos["id_usr"] = User.id_usr
@@ -125,7 +133,7 @@ class AccountActivity : AppCompatActivity() {
         btnConversaciones.setOnClickListener { abrirConversaciones() }
     }
 
-   private fun recuperarDatosUsuario() {
+    private fun recuperarDatosUsuario() {
         tvNombreValor.text = User.nombre
         tvApellidosValor.text = User.apellidos
         etDireccion.text = User.dir
@@ -134,7 +142,8 @@ class AccountActivity : AppCompatActivity() {
         etCorreoElec.text = User.mail
     }
 
-    private fun claveCoincide(): Boolean = (etContrasena.text.toString() == etContrasenaRepetir.text.toString())
+    private fun claveCoincide(): Boolean =
+        (etContrasena.text.toString() == etContrasenaRepetir.text.toString())
 
     private fun abrirMapa() {
         val intent = Intent(this, OfferMapActivity::class.java)
@@ -155,7 +164,8 @@ class AccountActivity : AppCompatActivity() {
     }
 
     private fun View.ocultarTeclado() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
@@ -168,13 +178,15 @@ class AccountActivity : AppCompatActivity() {
             url,
             null,
             { response ->
-                Log.i("Log personalizado", "Respuesta exitosa")
                 val numCoincidencias = response.getString("count").toInt()
                 callback(numCoincidencias)
             },
             {
-                Log.i("Log personalizado", "Respuesta no exitosa")
-                Toast.makeText(this, "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    this,
+                    "Ha ocurrido un error al verificar el e-mail. Inténtalo más tarde.",
+                    Toast.LENGTH_LONG
+                )
                     .show()
                 callback(-1) // Envía un valor predeterminado en caso de error
             }
@@ -231,7 +243,7 @@ class AccountActivity : AppCompatActivity() {
 
     private fun cerrarSesion() {
         User.cerrarSesion()
-        Toast.makeText(this, "Has cerrado sesión", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Se ha cerrado la sesión", Toast.LENGTH_SHORT).show()
         abrirMainActivity()
     }
 

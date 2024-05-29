@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -96,7 +95,14 @@ class OfferMapActivity : AppCompatActivity(),
         LoadOffersFromDb.cargarOfertas(this) { offerList ->
             if (offerList.isNotEmpty()) {
                 offerList.forEach {
-                    listaCoordenadas.add(Waypoint(it, it.titulo, it.descripcion, LatLng(it.coordsLat, it.coordsLong)))
+                    listaCoordenadas.add(
+                        Waypoint(
+                            it,
+                            it.titulo,
+                            it.descripcion,
+                            LatLng(it.coordsLat, it.coordsLong)
+                        )
+                    )
                 }
                 // Add markers after listaCoordenadas is populated
                 listaCoordenadas.forEach {
@@ -104,7 +110,14 @@ class OfferMapActivity : AppCompatActivity(),
                         MarkerOptions()
                             .position(it.coordenadas)
                             .title(it.titulo)
-                            .snippet("${it.descripcion.substring(0, it.descripcion.length.coerceAtMost(25))}...")
+                            .snippet(
+                                "${
+                                    it.descripcion.substring(
+                                        0,
+                                        it.descripcion.length.coerceAtMost(25)
+                                    )
+                                }..."
+                            )
                     )
                     marker?.tag = it.oferta
                 }
@@ -155,17 +168,12 @@ class OfferMapActivity : AppCompatActivity(),
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
-            .show()
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false
     }
 
-    override fun onMyLocationClick(location: Location) {
-        Toast.makeText(this, "Current location:\n$location", Toast.LENGTH_LONG)
-            .show()
-    }
+    override fun onMyLocationClick(location: Location) {}
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

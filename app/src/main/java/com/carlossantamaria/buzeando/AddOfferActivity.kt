@@ -72,7 +72,10 @@ class AddOfferActivity : AppCompatActivity() {
                         val addressComponents = place.addressComponents
 
                         coordsLatLng = place.latLng!!
-                        Log.i("Valor de coordsLatLng", "${coordsLatLng.latitude}, ${coordsLatLng.longitude}")
+                        Log.i(
+                            "Valor de coordsLatLng",
+                            "${coordsLatLng.latitude}, ${coordsLatLng.longitude}"
+                        )
 
                         tvDireccion.text = StringBuilder()
                             .append("Dirección: ")
@@ -104,15 +107,23 @@ class AddOfferActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        etTituloOferta.doAfterTextChanged { tvTituloDemasiadoLargo.isVisible = etTituloOferta.length() == 100 }
-        etDescripcion.doAfterTextChanged { tvDescDemasiadoLarga.isVisible = etDescripcion.length() == 750 }
+        etTituloOferta.doAfterTextChanged {
+            tvTituloDemasiadoLargo.isVisible = etTituloOferta.length() == 100
+        }
+        etDescripcion.doAfterTextChanged {
+            tvDescDemasiadoLarga.isVisible = etDescripcion.length() == 750
+        }
         btnElegirUbicacion.setOnClickListener {
             it.ocultarTeclado()
             lanzarPlacesAPI()
         }
         btnCrearOferta.setOnClickListener {
             if (!camposCumplimentados()) {
-                Toast.makeText(this, "Asegúrate de elegir el tipo de oferta y rellenar todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Asegúrate de elegir el tipo de oferta y rellenar todos los campos",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 it.ocultarTeclado()
                 crearOferta()
@@ -126,7 +137,6 @@ class AddOfferActivity : AppCompatActivity() {
 
         // Log an error if apiKey is not set.
         if (apiKey.isEmpty() || apiKey == "DEFAULT_API_KEY") {
-            Log.e("Places test", "No api key")
             finish()
             return
         }
@@ -137,7 +147,12 @@ class AddOfferActivity : AppCompatActivity() {
 
     private fun lanzarPlacesAPI() {
         // Set the fields to specify which types of place data to return after the user has made a selection
-        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG)
+        val fields = listOf(
+            Place.Field.ID,
+            Place.Field.NAME,
+            Place.Field.ADDRESS_COMPONENTS,
+            Place.Field.LAT_LNG
+        )
 
         // Start the autocomplete intent
         val autoCompleteIntent: Intent =
@@ -149,10 +164,12 @@ class AddOfferActivity : AppCompatActivity() {
         startAutocomplete.launch(autoCompleteIntent)
     }
 
-    private fun camposCumplimentados() = (!(rgTipo.checkedRadioButtonId == -1 || etTituloOferta.text.isNullOrEmpty() || etDescripcion.text.isNullOrEmpty() || etPrecio.text.isNullOrEmpty() || tvCodPostalValor.text == "(Sin definir)"))
+    private fun camposCumplimentados() =
+        (!(rgTipo.checkedRadioButtonId == -1 || etTituloOferta.text.isNullOrEmpty() || etDescripcion.text.isNullOrEmpty() || etPrecio.text.isNullOrEmpty() || tvCodPostalValor.text == "(Sin definir)"))
 
     private fun View.ocultarTeclado() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 

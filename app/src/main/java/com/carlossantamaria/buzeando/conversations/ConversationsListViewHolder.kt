@@ -9,7 +9,7 @@ import com.carlossantamaria.buzeando.objects.ConversationItem
 class ConversationsListViewHolder(
     view: View,
     onItemClicked: (Int) -> Unit
-): RecyclerView.ViewHolder(view) {
+) : RecyclerView.ViewHolder(view) {
 
     private val tvNombreApellidos: TextView = view.findViewById(R.id.tvNombreApellidos)
     private val tvUltimoMensaje: TextView = view.findViewById(R.id.tvUltimoMensaje)
@@ -21,10 +21,10 @@ class ConversationsListViewHolder(
 
     fun createItems(item: ConversationItem) {
         tvNombreApellidos.text = buildString {
-        append(item.nombreReceptor)
-        append(" ")
-        append(item.apellidosReceptor)
-    }
+            append(item.nombreReceptor)
+            append(" ")
+            append(item.apellidosReceptor)
+        }
         tvUltimoMensaje.text = item.ultimoMensaje
         tvHoraUltimoMensaje.text = item.horaUltimoMensaje
     }

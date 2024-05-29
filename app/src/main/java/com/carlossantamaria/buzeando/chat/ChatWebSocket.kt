@@ -22,7 +22,7 @@ class ChatWebSocket(private val listener: ChatWebSocketListener) {
     }
 
     fun close() {
-        webSocket.close(1000, "Goodbye")
+        webSocket.close(1000, "WebSocket cerrado")
     }
 
     private inner class SocketListener : WebSocketListener() {
